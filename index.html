@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Heo &amp; Thỏ"><meta name="theme-color" content="#000000"><link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🐰</text></svg>">
+<title>Heo & Thỏ – Chuyện tình của mình</title>
+<style>
+:root{--t:#e8688f;--h:#4f8fd6;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html,body{height:100%;margin:0;background:#000}
+body{display:flex;justify-content:center;font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;color:#fff}
+#app{width:100%;max-width:520px;height:100%;position:relative;overflow:hidden;cursor:pointer;user-select:none;background:#000}
+#top,#bot{position:absolute;left:0;right:0;background:#000;z-index:8;display:flex;align-items:center;justify-content:space-between;padding:0 14px;font-size:13px}
+#top{top:0;height:44px}#bot{bottom:0;height:34px;justify-content:center;color:#fff8;font-size:12px}
+#turn{padding:3px 11px;border-radius:99px;background:#888;transition:background .4s}
+#mw{position:absolute;left:0;right:0;bottom:0;height:3px;background:#fff2}#fill{height:100%;width:0;background:var(--t);transition:width 1s}
+#cam{position:absolute;top:44px;bottom:34px;left:0;right:0;overflow:hidden}
+#zoom{position:absolute;inset:0;transform-origin:50% 90%;animation:kb 22s ease-in-out infinite alternate}
+@keyframes kb{to{transform:scale(1.08)}}
+#sky{position:absolute;inset:0;transition:background 1.2s}
+#gnd{position:absolute;left:0;right:0;bottom:0;height:24%;box-shadow:0 -10px 30px #0004}
+.pr{position:absolute;line-height:1}.bob{animation:bob 3s ease-in-out infinite}.sway{animation:sw 4s ease-in-out infinite;transform-origin:50% 100%}
+.drift{animation:dr 16s ease-in-out infinite alternate}.glow{animation:gl 3s ease-in-out infinite;filter:drop-shadow(0 0 20px #fff)}
+@keyframes bob{50%{transform:translateY(-12px)}}@keyframes sw{50%{transform:rotate(3deg)}}@keyframes dr{to{transform:translateX(40px)}}@keyframes gl{50%{transform:scale(1.12)}}
+.fly{animation:fy 14s linear infinite}@keyframes fy{to{transform:translateX(130vw)}}
+#bench{position:absolute;left:50%;bottom:calc(24% - 4px);width:130px;height:34px;transform:translateX(-50%);border-top:8px solid #7a4a2f;border-radius:4px;display:none;opacity:.9}
+#bench::before,#bench::after{content:"";position:absolute;top:0;width:6px;height:30px;background:#5a341f}#bench::before{left:10px}#bench::after{right:10px}
+#link{position:absolute;bottom:calc(24% + 52px);height:3px;transform:translateX(0);background:repeating-linear-gradient(90deg,#ff7aa3 0 8px,transparent 8px 14px);opacity:.85;transition:all 1.4s;animation:fl 1s linear infinite;z-index:1}
+#link::after{content:"💗";position:absolute;left:50%;top:-14px;transform:translateX(-50%);font-size:22px;animation:gl 1.4s infinite}
+@keyframes fl{to{background-position:14px 0}}
+.ch{position:absolute;bottom:24%;width:0;transition:left 2.2s cubic-bezier(.3,.7,.3,1);z-index:2}
+.sp{position:absolute;bottom:0;left:-50px;width:100px;text-align:center;font-size:84px;line-height:1;display:block;transform-origin:50% 100%;animation:idle 3s ease-in-out infinite;transition:opacity .5s,filter .5s;opacity:.55}
+#heo .sp i,#tho .sp i{font-style:normal;display:inline-block}#heo .sp i{transform:scaleX(-1)}
+.ch.on .sp{opacity:1;filter:drop-shadow(0 0 16px #fff9);animation:talk .55s ease-in-out infinite alternate}
+.ch.walk .sp{animation:hop .3s ease-in-out 7;opacity:1}
+@keyframes idle{50%{transform:scaleY(.96)}}@keyframes talk{to{transform:translateY(-14px) scale(1.12)}}@keyframes hop{50%{transform:translateY(-22px)}}
+#fx{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.p{position:absolute;top:-30px;font-size:22px;animation:fall 8s linear forwards}.p.rain{color:#cfe3ff;font-size:18px;opacity:.6}
+.p.lantern,.p.heart,.p.bubble{top:auto;bottom:-30px;animation-name:rise;color:var(--t)}
+@keyframes fall{to{transform:translateY(110vh) translateX(40px) rotate(200deg)}}@keyframes rise{to{transform:translateY(-110vh) translateX(30px)}}
+.st{position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;animation:tw 2.5s ease-in-out infinite}@keyframes tw{50%{opacity:.15}}
+.ff{position:absolute;width:6px;height:6px;border-radius:50%;background:#ffe27a;box-shadow:0 0 12px 4px #ffe27a;animation:wd 7s ease-in-out infinite alternate}
+@keyframes wd{to{transform:translate(60px,-50px);opacity:.3}}
+.hr{position:absolute;bottom:20%;font-size:22px;color:var(--t);pointer-events:none;z-index:6;animation:up 3s ease-out forwards}
+@keyframes up{to{transform:translateY(-70vh) rotate(25deg);opacity:0}}
+#nar{display:none;position:absolute;left:7%;right:7%;top:12%;text-align:center;font-size:17px;font-style:italic;padding:12px 16px;background:#0006;border-radius:14px;backdrop-filter:blur(4px);z-index:5;text-shadow:0 1px 4px #000;animation:fi .8s}
+#bub{display:none;position:absolute;bottom:calc(24% + 150px);transform:translateX(-50%);width:max-content;max-width:72%;padding:11px 15px;border-radius:18px;color:#2b1e24;background:#fff;z-index:5;box-shadow:0 6px 20px #0004;animation:pop .35s}
+#bub.heo{background:#dcebff}#bub.tho{background:#ffe0ea}
+#bub::after{content:"";position:absolute;bottom:-9px;left:50%;border:9px solid transparent;border-bottom:0;border-top-color:inherit;border-top-color:#fff}
+#bub.heo::after{border-top-color:#dcebff}#bub.tho::after{border-top-color:#ffe0ea}
+@keyframes pop{from{opacity:0;transform:translateX(-50%) scale(.7)}}@keyframes fi{from{opacity:0;transform:translateY(10px)}}
+#cs{position:absolute;left:12px;right:12px;top:30%;display:flex;flex-direction:column;gap:10px;z-index:7}
+#cs button{font:inherit;color:#2b1e24;background:#fffffff0;border:2px solid var(--t);border-radius:16px;padding:11px 14px;text-align:left;cursor:pointer;box-shadow:0 0 18px #ff7aa388;animation:sl .6s both}
+#cs button:nth-child(2){animation-delay:.2s}@keyframes sl{from{opacity:0;transform:translateY(30px) scale(.9)}}
+#big{position:absolute;left:50%;bottom:calc(24% + 70px);font-size:90px;transform:translateX(-50%);z-index:6;display:none;animation:bg 2.5s ease-out forwards}
+@keyframes bg{0%{transform:translateX(-50%) scale(0)}40%{transform:translateX(-50%) scale(1.3)}100%{transform:translateX(-50%) scale(1) translateY(-30px)}}
+#card{position:absolute;inset:0;z-index:9;display:none;align-items:center;justify-content:center;flex-direction:column;gap:8px;background:#000;text-align:center;padding:20px}
+#card.show{display:flex;animation:cd 2.6s both}@keyframes cd{0%{opacity:0}20%,80%{opacity:1}100%{opacity:0}}
+#card small{letter-spacing:4px;text-transform:uppercase;opacity:.7;font-size:12px}#card b{font-size:28px}
+#card u{display:block;height:2px;background:var(--t);width:0;animation:wp 1.6s .4s forwards}@keyframes wp{to{width:60%}}
+.em{position:absolute;bottom:calc(24% + 110px);font-size:34px;transform:translateX(-50%);z-index:6;animation:em 1.7s ease-out forwards}
+@keyframes em{to{transform:translate(-50%,-70px) scale(1.4);opacity:0}}
+.mo{position:absolute;left:50%;bottom:calc(24% + 80px);font-size:76px;z-index:6;animation:mo 2.8s ease-out forwards}
+@keyframes mo{0%{transform:translateX(-50%) scale(0)}30%{transform:translateX(-50%) scale(1.4)}100%{transform:translateX(-50%) translateY(-70px);opacity:0}}
+.mo.star{left:-10%;bottom:auto;top:6%;font-size:54px;animation:ss 2s ease-in forwards}@keyframes ss{to{transform:translate(110vw,40vh);opacity:.2}}
+.fw{position:absolute;font-size:46px;z-index:6;opacity:0;animation:fw 1.5s ease-out both}@keyframes fw{0%{transform:scale(0);opacity:1}60%{opacity:1}100%{transform:scale(1.9);opacity:0}}
+#cam::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 90px #0008;pointer-events:none;z-index:4}
+#rays{position:absolute;left:50%;top:-50%;width:170%;height:170%;margin-left:-85%;background:repeating-conic-gradient(#fff3 0 6deg,transparent 6deg 18deg);animation:rot 70s linear infinite;-webkit-mask-image:radial-gradient(circle at 50% 50%,#000,transparent 60%);mask-image:radial-gradient(circle at 50% 50%,#000,transparent 60%);opacity:.5}
+@keyframes rot{to{transform:rotate(360deg)}}
+#heo .sp{rotate:var(--r,0deg)}#tho .sp{rotate:calc(var(--r,0deg)*-1)}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;z-index:6;pointer-events:none}#flash.go{animation:f2 1s}@keyframes f2{0%{opacity:.85}100%{opacity:0}}
+#mu{background:#fff2;border:0;color:#fff;border-radius:99px;padding:3px 9px;cursor:pointer;font-size:13px}
+#intro{position:absolute;inset:0;z-index:12;background:linear-gradient(160deg,#ff9ab5,#6b4fa0);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:20px}
+#intro b{font-size:32px;animation:gl 2.4s infinite}#intro .pr2{font-size:80px;animation:bob 3s infinite}#intro small{opacity:.85}
+#endp{position:absolute;inset:44px 0 34px;z-index:9;background:#000d;overflow:auto;padding:16px;display:none;cursor:default}
+#endp h3{margin:4px 0;text-align:center;color:#ffb3c8}#endp p{margin:6px 0;font-size:15px}
+.it{padding:9px 12px;margin:8px 0;border-radius:12px;background:#fff2;font-size:14px;animation:sl .6s both}.it.lk{opacity:.7}.it small{display:block;opacity:.8}
+#endp button{display:block;margin:14px auto;font:inherit;background:var(--t);color:#fff;border:0;border-radius:99px;padding:10px 24px;cursor:pointer}
+#grain{position:absolute;inset:-50%;z-index:7;pointer-events:none;opacity:.1;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence baseFrequency='.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");animation:gr .6s steps(4) infinite}
+@keyframes gr{25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(3%,3%)}}
+#bok{position:absolute;inset:0;pointer-events:none}#bok i{position:absolute;border-radius:50%;background:#fff3;filter:blur(6px);animation:bk 9s ease-in-out infinite alternate}
+@keyframes bk{to{transform:translate(30px,-40px) scale(1.3);opacity:.3}}
+@keyframes kb2{from{transform:scale(1.08) translateX(-2%)}to{transform:scale(1) translateX(2%)}}
+#card.cr{display:flex;animation:none;opacity:1;overflow:hidden;cursor:pointer}.roll{animation:roll 9s linear forwards}.roll p{margin:26px 0;font-size:17px;line-height:1.5}
+@keyframes roll{from{transform:translateY(60vh)}to{transform:translateY(-110vh)}}
+.hl #zoom{filter:saturate(.45) brightness(.8)!important}.hl #nar{font-family:Georgia,serif;font-size:19px;background:#000b;letter-spacing:.3px}
+.hl #cam::after{box-shadow:inset 0 0 170px #000}.hl #rays{opacity:.12}.hl #flash.go{animation-duration:1.8s}
+.walk2 .sp{animation:hop .35s ease-in-out infinite!important;opacity:1!important}
+.rd{position:absolute;bottom:24%;font-size:78px;z-index:3;white-space:nowrap;transform:scaleX(-1);filter:drop-shadow(0 6px 6px #0004)}.rd i{font-style:normal;display:inline-block;animation:bob .5s ease-in-out infinite}
+#umb{position:absolute;bottom:calc(24% + 70px);font-size:120px;z-index:3;animation:sw 2.5s ease-in-out infinite}
+#ban{left:68%;display:none}#bub.ban{background:#fff1b8}#bub.ban::after{border-top-color:#fff1b8}
+#cu{position:absolute;inset:0;z-index:8;display:none;align-items:center;justify-content:center;background:radial-gradient(circle,#ff9ab5cc,#2a0a1add);pointer-events:none}#cu.go{display:flex;animation:cuf 3.4s both}
+@keyframes cuf{0%{opacity:0}12%,85%{opacity:1}100%{opacity:0}}
+#cu i{font-style:normal;font-size:150px;position:absolute;filter:drop-shadow(0 0 20px #fff)}#cu .l{animation:cl 3s ease-in-out both}#cu .r{animation:cr 3s ease-in-out both}
+@keyframes cl{from{transform:translateX(-180px) rotate(-18deg) scale(.7)}60%,100%{transform:translateX(-38px) rotate(12deg) scale(1.1)}}
+@keyframes cr{from{transform:translateX(180px) rotate(18deg) scale(.7)}60%,100%{transform:translateX(38px) rotate(-12deg) scale(1.1)}}
+#cu b{position:absolute;font-size:70px;opacity:0;animation:bg2 3s .9s both}@keyframes bg2{0%{transform:scale(0);opacity:0}40%{opacity:1;transform:scale(1.5)}100%{opacity:0;transform:scale(1) translateY(-80px)}}
+#cd{position:absolute;left:50%;top:3%;width:74%;max-width:330px;transform:translateX(-50%) scale(.72);transform-origin:top center;z-index:6;perspective:700px;pointer-events:none;transition:opacity .5s}
+.cp{background:linear-gradient(160deg,#fffaf0,#ffe8ee);color:#7a2f4a;border:2px solid #f7b3c6;border-radius:12px;padding:16px 18px;text-align:center;box-shadow:0 0 30px #ff9ab5aa;animation:cardIn 1.2s cubic-bezier(.2,.9,.3,1.2) both,glowc 2.4s ease-in-out 1.2s infinite}
+.cp b{font-size:34px;display:block}.cp p{font-family:"Segoe Script","Brush Script MT",cursive;font-size:19px;min-height:60px;margin:6px 0}
+@keyframes cardIn{from{transform:rotateX(85deg) translateY(60px) scale(.5);opacity:0}}@keyframes glowc{50%{box-shadow:0 0 52px #ff7aa3}}
+#bk,#sk,#sc{background:#fff2;border:0;color:#fff;border-radius:99px;padding:3px 9px;cursor:pointer;font-size:13px}#chl{max-width:32%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#gt{position:absolute;inset:0;z-index:9;background:#000b;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.gb{background:linear-gradient(160deg,#2a1230,#5a1b4a);border:2px solid var(--t);border-radius:18px;padding:18px;width:84%;max-width:340px;text-align:center;box-shadow:0 0 40px #ff7aa388;animation:gp .4s}
+@keyframes gp{from{opacity:0;transform:scale(.8)}}
+.gb b{font-size:20px;color:#ffb3c8}.gb p{margin:10px 0;font-size:15px}.gpr{height:10px;background:#fff2;border-radius:9px;overflow:hidden;margin:12px 0}.gpr i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ff7aa3,#ffb36b)}
+.gbt{display:flex;gap:10px}.gbt button{flex:1;background:#fff2;color:#fff;border:2px solid var(--t);border-radius:14px;padding:18px 6px;font:inherit;font-size:16px;touch-action:none;user-select:none}.gbt button.on{background:var(--t);transform:scale(.96)}
+.gb small{display:block;margin-top:10px;opacity:.7}#gx{display:block;margin-top:8px;font-size:12px;opacity:.6;text-decoration:underline;cursor:pointer}
+#pc{position:absolute;left:50%;top:3%;transform:translateX(-50%) scale(.72);transform-origin:top center;z-index:6;pointer-events:none;transition:opacity .5s}
+.pn{display:flex;gap:10px;align-items:center;background:#fffffff2;color:#2b1e24;border-radius:16px;padding:10px 14px;width:max-content;max-width:300px;box-shadow:0 8px 24px #0006;animation:pnIn .7s cubic-bezier(.2,1.2,.4,1) both}.pn i{font-style:normal;font-size:28px}.pn b{display:block;font-size:13px}.pn span{font-size:13px}
+@keyframes pnIn{from{transform:translateY(-90px) scale(.8);opacity:0}}@keyframes popIn{from{transform:scale(.3) rotate(-12deg);opacity:0}}
+.ph{width:250px;background:#111c;border:3px solid #fff3;border-radius:22px;padding:12px;display:flex;flex-direction:column;gap:7px;animation:popIn .6s both}
+.cb{max-width:82%;padding:7px 11px;border-radius:14px;font-size:13px;animation:cbIn .5s both;color:#2b1e24}.cb.h{background:#dcebff;align-self:flex-start}.cb.t{background:#ffe0ea;align-self:flex-end}
+@keyframes cbIn{from{opacity:0;transform:translateY(14px) scale(.8)}}
+.ps{display:flex;flex-direction:column;gap:6px;background:#fff;padding:10px 10px 22px;border-radius:6px;box-shadow:0 8px 24px #0006;animation:popIn .6s both}.ps div{width:90px;height:56px;background:#ffe0ea;display:flex;align-items:center;justify-content:center;font-size:28px;animation:dropIn .5s both}
+@keyframes dropIn{from{transform:translateY(-60px);opacity:0}}
+.pt{background:linear-gradient(120deg,#ffd27a,#ff9ab5);color:#4a1a2a;border-radius:10px;padding:12px 18px;text-align:center;box-shadow:0 8px 24px #0006;animation:popIn .6s both,wob 3s ease-in-out .6s infinite}.pt b{display:block;font-size:16px}.pt em{font-size:12px}
+@keyframes wob{50%{transform:rotate(3deg)}}
+.pp{display:flex}.pp div{width:78px;height:96px;background:#ffe0ea;border:6px solid #fff;border-bottom-width:22px;display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 6px 18px #0006;transform:rotate(var(--r));margin:0 -6px;animation:fan .7s both}
+@keyframes fan{from{transform:translateY(-60px) rotate(0) scale(.3);opacity:0}}
+.pb{font-size:90px;text-align:center;animation:popIn .6s both}.pb span{display:block;font-size:44px;animation:rise2 1.4s .5s both}@keyframes rise2{from{transform:translateY(60px) scale(.3);opacity:0}}
+.rc{width:210px;background:#fffdf5;color:#3a2a30;padding:12px 14px;box-shadow:0 8px 24px #0006;font:12px/1.5 monospace;animation:unroll .7s both;transform-origin:top;border-bottom:4px dashed #bbb}.rc b{display:block;text-align:center;font-size:14px}.rc div{display:flex;justify-content:space-between}.rc hr{border:0;border-top:1px dashed #999}.rc em{display:block;text-align:center;margin-top:6px;font-style:normal}
+@keyframes unroll{from{transform:scaleY(0)}}
+.ce{width:250px;text-align:center;background:linear-gradient(160deg,#fff8d6,#ffe39a);color:#6a4a10;border:4px double #c9962a;padding:14px;box-shadow:0 8px 24px #0006;animation:popIn .7s both;position:relative;overflow:hidden}.ce b{font-size:16px}.ce p{margin:6px 0}.ce::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,#fff9,transparent);animation:shine 2.4s 1s infinite}@keyframes shine{to{left:130%}}
+.cl{width:230px;text-align:center;background:#101830e8;border-radius:22px;padding:16px;animation:popIn .6s both}.cl .av{font-size:50px;width:80px;height:80px;margin:0 auto 6px;border-radius:50%;background:#ffffff22;display:flex;align-items:center;justify-content:center;animation:ring2 1.2s infinite}.cl b{display:block}.cl span{font-size:12px;opacity:.8}.cl .ac{margin-top:10px;font-size:26px;animation:wob 1s infinite}
+@keyframes ring2{50%{box-shadow:0 0 0 14px #ffffff18}}
+.ca{width:150px;text-align:center;background:#fff;color:#3a2a30;border-radius:12px;overflow:hidden;box-shadow:0 8px 24px #0006;animation:flip .8s both}.ca b{display:block;background:#e8688f;color:#fff;padding:5px;font-size:13px}.ca strong{display:block;font-size:54px;line-height:1.1}.ca em{display:block;font-style:normal;font-size:11px;padding:0 6px 8px}
+@keyframes flip{from{transform:rotateX(-90deg) translateY(-40px);opacity:0}}
+.tm{text-align:center;animation:popIn .6s both}.tb{width:26px;height:120px;margin:0 auto;border:3px solid #fff;border-radius:13px;background:#ffffff22;position:relative;overflow:hidden}.tb i{position:absolute;bottom:0;left:0;right:0;background:#ff4d4d;animation:merc 2.2s .5s both}@keyframes merc{from{height:5%}to{height:92%}}.tm b{display:block;margin-top:6px;font-size:18px;text-shadow:0 1px 6px #000}
+.fo{width:250px;text-align:center;background:#fff;color:#3a2a30;border-radius:14px;padding:14px;box-shadow:0 8px 24px #0006;animation:popIn .6s both}.fb{height:12px;background:#ffd9e3;border-radius:8px;overflow:hidden;margin:8px 0}.fb i{display:block;height:100%;background:linear-gradient(90deg,#ff7aa3,#ffb36b);animation:fillw 2s .5s both}@keyframes fillw{from{width:0}to{width:var(--w)}}
+.lt{width:270px;background:repeating-linear-gradient(#fffaf0 0 24px,#f3d9cf 24px 25px);color:#5a2f3a;padding:14px 16px;border-radius:6px;box-shadow:0 8px 24px #0006;animation:unroll .8s both;transform-origin:top;rotate:-2deg}.lt b{display:block;margin-bottom:6px}.lt p{font-family:"Segoe Script","Brush Script MT",cursive;font-size:15px;line-height:25px;min-height:100px;margin:0}
+.sg{display:flex;align-items:center;gap:12px;background:#111c;border-radius:18px;padding:12px 16px;animation:pnIn .7s both}.cd2{font-size:48px;animation:spin 3s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.sg b{display:block}.sg span{font-size:12px;opacity:.8}
+.eq{display:flex;gap:3px;height:20px;align-items:flex-end;margin-top:6px}.eq i{width:5px;background:#ff7aa3;animation:eq .8s ease-in-out infinite alternate}.eq i:nth-child(2){animation-delay:.2s}.eq i:nth-child(3){animation-delay:.4s}.eq i:nth-child(4){animation-delay:.1s}@keyframes eq{from{height:4px}to{height:20px}}
+.haspc #nar{top:44%}
+.sk2{text-align:center;animation:popIn .6s both}.sk2 b{display:block;font-size:80px;animation:bob 1.6s ease-in-out infinite}.sk2 span{display:inline-block;background:#fffffff0;color:#7a2f4a;border-radius:14px;padding:6px 14px;font-weight:700;box-shadow:0 6px 18px #0005}
+.qt{width:260px;background:#fff;color:#7a2f4a;border-left:6px solid #e8688f;border-radius:10px;padding:14px;font-style:italic;animation:popIn .6s both}
+#endp .rp{background:#fff2;font-size:13px;padding:7px 14px;margin:5px auto;border:1px solid var(--t)}
+</style></head><body><div id="app">
+<div id="top"><span id="chl"></span><span id="turn"></span><button id="bk" title="Lùi chương">⏮</button><button id="sk" title="Qua phân cảnh">⏩</button><button id="sc" title="Qua chương">⏭</button><button id="mu">🔊</button><div id="mw"><div id="fill"></div></div></div>
+<div id="cam"><div id="zoom"><div id="sky"></div><div id="props"></div><div id="gnd"></div><div id="bench"></div><div id="rays"></div><div id="bok"></div><div id="fx"></div><div id="link"></div>
+<div class="ch" id="heo"><span class="sp"><i>🐷</i></span></div><div class="ch" id="ban"><span class="sp"><i>🍻👬</i></span></div><div class="ch" id="tho"><span class="sp"><i>🐰</i></span></div></div>
+<div id="cu"><i class="l">🐷</i><i class="r">🐰</i><b>💋</b></div><div id="nar"></div><div id="bub"></div><div id="cs"></div><div id="grain"></div><div id="flash"></div><div id="big">💞</div></div>
+<div id="bot">chạm để tiếp tục</div><div id="card"></div><div id="endp"></div><div id="intro"><div class="pr2">🐷💞🐰</div><b>Heo &amp; Thỏ</b><div>Chuyện tình của mình</div><small id="ic"></small><small>Chạm để bắt đầu (có nhạc nền 🎵)</small></div></div>
+<script>
+const H='heo',T='tho',N='n';
+const S=[
+{c:'I. Quen nhau',w:H,
+l:[[N,'Tối trước hôm sang Trung Quốc, Heo ngồi uống nước với bạn và tình cờ lướt thấy facebook của một cô gái rất xinh.']],
+q:'Heo sẽ làm gì?',o:[
+{t:'Bấm kết bạn, chắc gì được approve…',r:[[H,'Cứ gửi thôi, dù gì cũng như bao người khác.'],[N,'Nhưng lần này thì không. Lời mời được chấp nhận.']],v:1},
+{t:'Đắn đo cả buổi rồi mới dám gửi',r:[[H,'Ngón tay run run… thôi liều.'],[N,'Và Thỏ đã bấm đồng ý.']],v:1}]},
+{c:'I. Quen nhau',w:T,
+l:[[N,'Hôm sau, một tấm story ảnh bữa tối ở Trung Quốc hiện lên.']],
+q:'Thỏ sẽ…',o:[
+{t:'Rep story ngay, tò mò quá',r:[[T,'Ủa ăn gì mà nhìn ngon vậy ạ?'],[H,'(tim đập thình thịch) Em… rep anh thật kìa!']],v:2},
+{t:'Đợi một lúc cho đỡ lộ, rồi mới rep',r:[[T,'Đăng gì thế? 😏'],[H,'Anh chờ tin nhắn này cả buổi tối luôn á.']],v:1}]},
+{c:'I. Quen nhau',w:H,
+l:[[N,'Những cuộc gọi đến 4h sáng, chuyện từ gia đình đến lí tưởng sống, rồi xem tướng số, học tiếng Trung cùng nhau. Mấy ông anh đồng nghiệp làm “chiến thuật sư” chỉ Heo cách tán Thỏ.'],[T,'Anh Heo, sắp sáng rồi đó, đi ngủ đi…']],
+q:'Heo đáp lại thế nào?',o:[
+{t:'“Nói với em thêm xíu nữa, anh chưa buồn ngủ.”',r:[[T,'Hôm nay anh lạ lắm nha~'],[H,'Vì có em nên lạ đó.']],v:2},
+{t:'Khai thật: “Mấy ông anh bày cho anh tán em đó!”',r:[[T,'HẢ?! Thế mà em tưởng anh tự nhiên 😂'],[H,'Tự nhiên thật mà! Chỉ là có người cố vấn thôi…']],v:1}]},
+{c:'II. Lần đầu gặp mặt',w:H,
+l:[[N,'Hôm Heo về VN gia hạn visa, Thỏ nhắn: tay em chảy máu.'],[N,'Ngày mai Heo đã phải bay đi rồi.']],
+q:'Heo sẽ…',o:[
+{t:'Phóng xe đến ngay, lòng không yên',r:[[T,'Anh đến thật luôn hả?'],[H,'Không thấy em ổn thì anh bay cũng không yên.']],v:3},
+{t:'Nhắn dặn kĩ rồi mới đi tìm gặp',r:[[T,'Anh cẩn thận vết thương cho em nhé.'],[H,'Em ngồi yên đó, anh tới liền.']],v:2}]},
+{c:'II. Lần đầu gặp mặt',w:T,
+l:[[N,'Ghế đá gần nhà. Heo cứ tìm chủ đề để nói, sợ Thỏ chê nhạt, rồi bẽn lẽn vì Thỏ quá xinh.']],
+q:'Thỏ sẽ…',o:[
+{t:'Chủ động hôn má anh một cái',r:[[H,'(đơ người) Anh… anh thơm lại được không?'],[T,'Hihi, anh ngại thấy ghê á!']],v:3},
+{t:'Chỉ cười và nhìn anh nói tiếp',r:[[H,'Anh nói nhiều quá hả?'],[T,'Không, em thích nghe giọng anh.']],v:2}]},
+{c:'III. Quay lại Trung Quốc',w:H,
+l:[[N,'Đi đâu, làm gì Heo cũng nhớ Thỏ. Thấy gì đẹp cũng muốn mang về tặng em. Những ngày gần về, Heo nhịn ăn để mua nốt quà.'],[T,'Anh mua nhiều thế làm gì, em hết chỗ cất rồi!']],
+q:'Heo nói gì?',o:[
+{t:'“Vì trong mắt anh, cái gì đẹp cũng là của em.”',r:[[T,'Heo ơi… em hơi muốn khóc đó.']],v:3},
+{t:'“Anh nhịn ăn mua đó, em mà chê là anh giận!”',r:[[T,'Ơ, anh nhịn ăn á? Lần sau không được vậy nữa nhé!'],[H,'Cho em mà, anh vui lắm.']],v:2}]},
+{c:'IV. Nói lời yêu',w:T,
+l:[[N,'Thỏ hay trêu Heo là “siêu bạn thân”. Heo về nước vẫn rén, sợ bị từ chối. Cuối cùng cũng đến ngày gặp lại và Heo tỏ tình.'],[H,'Thỏ… làm người yêu anh nhé?']],
+q:'Thỏ trả lời…',o:[
+{t:'“Đợi lâu quá rồi đó, đồ ngốc! Đồng ý!”',r:[[H,'Anh hạnh phúc muốn xỉu! Giờ anh hôn má em thật to, ra tiếng luôn nè!'],[N,'Thử thách của Heo đã hoàn thành. 💋']],v:3},
+{t:'Im lặng một chút, rồi ôm anh thật chặt',r:[[H,'Thỏ…? Em ổn không?'],[T,'Em ổn. Em chỉ đợi câu này lâu quá rồi.']],v:3}]},
+{c:'V. Valentine đầu tiên',w:T,
+l:[[N,'Thỏ tự tay làm socola và làm hoa tặng Heo. Từng món là từng sự tỉ mỉ, tâm huyết.']],
+q:'Lúc trao quà, Thỏ nói…',o:[
+{t:'“Em làm lâu lắm đó, anh ăn hết nhé.”',r:[[H,'Từ giây phút ấy… anh đã yêu em mê mệt rồi.']],v:2},
+{t:'“Em hơi lo lắm, anh thích không?”',r:[[H,'Anh thích hơn cả thích. Anh yêu những người dành tâm huyết cho mình như vậy.']],v:3}]},
+{c:'VIII. Hạnh phúc và những cơn giận',w:T,
+l:[[N,'Mình đi chơi nhiều, chụp photobooth lần đầu. Nhưng cũng có những hôm Thỏ hờn dỗi, Heo làm lành mà Thỏ không nghe, thậm chí quát lại.'],[H,'Heo chỉ muốn đi chơi với em là chỉ lưu lại kỉ niệm vui thôi…']],
+q:'Thỏ sẽ…',o:[
+{t:'Xin lỗi: “Em sai rồi, em sẽ cố giữ bình tĩnh.”',r:[[H,'Cảm ơn em. Anh cũng sẽ lắng nghe em hơn.']],v:4,f:'sorry'},
+{t:'Im lặng, nhưng lặng lẽ nắm tay anh',r:[[H,'Em chưa nói gì, nhưng anh hiểu rồi.']],v:2}]},
+{c:'IX. Kỉ niệm buồn',w:H,
+l:[[N,'Trung thu, Heo mong được đi chơi với Thỏ, nhưng Thỏ bận việc đoàn. Heo thất vọng, tủi thân và cư xử quá lên.']],
+q:'Bây giờ nghĩ lại, Heo nói…',o:[
+{t:'“Lúc đó anh tủi lắm. Anh xin lỗi vì đã làm em tổn thương.”',r:[[T,'Em cũng không biết anh buồn đến thế… Em xin lỗi vì đã không nói rõ.']],v:4,f:'honest'},
+{t:'“Không sao đâu, qua rồi mà.”',r:[[T,'Thật không? Anh nói thật với em đi…'],[H,'…thật ra lúc đó anh chỉ muốn em ở bên thôi.']],v:2}]},
+{c:'IX. Kỉ niệm buồn',w:T,
+l:[[N,'Có hôm Thỏ đau bụng quằn quại. Heo chỉ ước gánh thay được phần nào. Em đau một, tim anh xé mười.']],
+q:'Thỏ nói với Heo…',o:[
+{t:'“Có anh ở đây, em thấy đỡ hơn nhiều.”',r:[[H,'Em cứ dựa vào anh nhé, anh ở đây.']],v:3},
+{t:'“Lần sau em sẽ nói sớm, không giấu anh đâu.”',r:[[H,'Ừ, đừng một mình chịu đau nữa.']],v:3}]},
+{c:'X. Sau cơn mưa trời lại sáng',w:H,
+l:[[N,'Hôm nay Heo dẫn Thỏ đi ăn Jollibee. Thỏ ăn ngon lành, Heo vui lây. Thỏ còn hay gửi ảnh hồi bé cho Heo.']],
+q:'Heo nói…',o:[
+{t:'“Em cứ giữ mãi sự nghịch ngợm đáng yêu đó nhé.”',r:[[T,'Hihi, vậy anh phải chịu em luôn đó!']],v:3},
+{t:'“Anh hứa sẽ giảm cân cho khỏe, ở bên em lâu hơn.”',r:[[T,'Heo của em đáng yêu quá. Em sẽ ở bên cổ vũ anh!']],v:3}]},
+{c:'Ghế đá ngày xưa',w:H,
+l:[[N,'Hôm nay hai đứa ngồi lại đúng chiếc ghế đá của buổi gặp đầu tiên. Heo lấy ra một món quà nhỏ.']],
+q:'Heo mong muốn…',o:[
+{t:'“…mình sẽ còn ngồi ở ghế này nhiều năm nữa.”',r:[[N,'']],v:3,f:'long'},
+{t:'“…mình luôn nói thật với nhau, dù giận cũng không bỏ nhau.”',r:[[N,'']],v:4,f:'truth'}]},
+{c:'Ghế đá ngày xưa',w:T,
+l:[[N,'Thỏ mở quà ra, mắt đã ngân ngấn.']],
+q:'Thỏ đáp lại…',o:[
+{t:'“Em cũng muốn thế, Heo ơi.”',r:[[N,'']],v:3},
+{t:'Không nói gì, chỉ tựa đầu lên vai anh',r:[[N,'']],v:3}]}
+];
+const E=[
+[0,'Dù có gió mưa, ghế đá này vẫn chờ hai đứa. Heo và Thỏ nắm tay nhau, bắt đầu một chương mới. 💞'],
+[22,'Hai đứa nhìn nhau và bật cười. Mọi cơn giận đã thành kỉ niệm, và chỉ còn lại sự thấu hiểu. 💖'],
+[38,'Heo ôm Thỏ thật chặt, không còn ôm hờ như lần đầu. “Cảm ơn em vì đã đến bên anh.” Thỏ thì thầm: “Mình yêu nhau thật nhiều nha, Heo.” 🐷🐰']
+];
+
+
+const $=id=>document.getElementById(id),app=$('app'),nar=$('nar'),bub=$('bub'),cs=$('cs'),card=$('card'),fx=$('fx');
+const rnd=(a,b)=>a+Math.random()*(b-a);
+const SC=[
+{sky:'#0b1a3a,#3b2a6b',fx:'star',g:'#140f2b',p:[['📱','4%','50%',34,'bob'],['📱','86%','50%',34,'bob'],['💬','28%','26%',28,'drift'],['💬','64%','18%',24,'drift'],['🌙','78%','6%',48,'glow']]},
+{sky:'#ff9a8b,#ffd6a5',fx:'petal',bench:1,g:'#6b4a4a',p:[['🌳','1%','22%',100,'sway'],['🌳','80%','18%',110,'sway'],['☀️','66%','6%',56,'glow']]},
+{sky:'#16213e,#7a2e4a',fx:'lantern',g:'#221225',p:[['🏯','62%','24%',84,''],['🚆','-12%','58%',40,'fly'],['🏮','8%','18%',30,'bob'],['🏮','88%','14%',30,'bob']]},
+{sky:'#ff9966,#ff5e8e',fx:'petal',bench:1,g:'#5a2a3a',p:[['🌅','40%','8%',72,'glow']]},
+{sky:'#ffc0d3,#ffe3ec',fx:'heart',g:'#8e4a63',p:[['🍫','16%','28%',40,'bob'],['🌹','78%','26%',44,'bob'],['🎁','47%','16%',36,'bob']]},
+{sky:'#6d7a8f,#b8c0cc',fx:'rain',g:'#2d3340',p:[['☁️','8%','8%',90,'drift'],['☁️','58%','14%',100,'drift']]},
+{sky:'#0f1b33,#2a3f6b',fx:'rain',g:'#0d1424',p:[['🌙','72%','8%',60,'bob'],['☁️','10%','12%',90,'drift']]},
+{sky:'#8fd3ff,#fff3c4',fx:'petal',g:'#5aa05a',p:[['☀️','72%','6%',64,'glow'],['🌈','6%','10%',90,''],['🍔','47%','46%',34,'bob']]},
+{sky:'#ff8f70,#7b4fa0',fx:'firefly',bench:1,g:'#2a1d3a',p:[['🌇','42%','10%',72,'glow'],['🎁','48%','58%',30,'bob']]}];
+let i=0,score=0,max=0,fl={},q=[],cb=null,typing=false,full='',tmr,ch='',ci=-1,fxk='',el=nar;
+const C=()=>Math.min(1,score/max);
+function place(){const c=C();$('heo').style.left=(14+c*30)+'%';$('tho').style.left=(86-c*30)+'%';$('link').style.left=(14+c*30)+'%';$('link').style.width=(72-c*60)+'%';$('heo').style.setProperty('--r',c*9+'deg');$('tho').style.setProperty('--r',c*9+'deg')}
+function heart(n){for(let k=0;k<n;k++){const h=document.createElement('span');h.className='hr';h.textContent=Math.random()<.5?'♥':'♡';h.style.left=rnd(15,85)+'%';h.style.animationDelay=rnd(0,.8)+'s';$('cam').append(h);setTimeout(()=>h.remove(),4000)}}
+function spawn(){if(!fxk||fxk=='star'||fxk=='firefly')return;const s=document.createElement('span');s.className='p '+fxk;s.style.left=rnd(0,95)+'%';
+ if(fxk=='rain'){s.textContent='|';s.style.animationDuration=rnd(.6,1)+'s'}else{s.textContent={petal:'🌸',lantern:'🏮',heart:'♥',bubble:'🫧'}[fxk];s.style.animationDuration=rnd(6,10)+'s'}
+ fx.append(s);setTimeout(()=>s.remove(),10500)}
+setInterval(spawn,550);setInterval(()=>fxk=='rain'&&spawn(),110);
+function build(n){const s=SC[n%SC.length];$('sky').style.background='linear-gradient(180deg,'+s.sky+')';$('gnd').style.background=s.g;$('bench').style.display=s.bench?'block':'none';
+ $('props').innerHTML=s.p.map(p=>`<span class="pr ${p[4]}" style="left:${p[1]};top:${p[2]};font-size:${p[3]}px">${p[0]}</span>`).join('');
+ fxk=s.fx;fx.innerHTML='';$('bok').innerHTML=Array.from({length:9},()=>`<i style="left:${rnd(0,95)}%;top:${rnd(5,70)}%;width:${rnd(26,80)}px;height:${rnd(26,80)}px;animation-delay:-${rnd(0,9)}s"></i>`).join('');
+ if(fxk=='star')for(let k=0;k<40;k++)fx.insertAdjacentHTML('beforeend',`<i class="st" style="left:${rnd(0,100)}%;top:${rnd(0,50)}%;animation-delay:${rnd(0,3)}s"></i>`);
+ if(fxk=='firefly')for(let k=0;k<16;k++)fx.insertAdjacentHTML('beforeend',`<i class="ff" style="left:${rnd(0,100)}%;top:${rnd(30,75)}%;animation-duration:${rnd(5,9)}s;animation-delay:-${rnd(0,9)}s"></i>`)}
+function turn(w){const e=$('turn');e.textContent='Lượt của '+(w==H?'Heo 🐷':'Thỏ 🐰');e.style.background=w==H?'#4f8fd6':'#e8688f'}
+function type(t){full=t;el.textContent='';let k=0;typing=true;clearInterval(tmr);tmr=setInterval(()=>{el.textContent=t.slice(0,++k);if(k>=t.length){clearInterval(tmr);typing=false}},28)}
+function show(w,t,e){const n=w==N;if(e)emo(w,e);nar.style.display=n?'block':'none';bub.style.display=n?'none':'block';
+ $('ban').classList.toggle('on',w==BN);$('heo').classList.toggle('on',w==H);$('tho').classList.toggle('on',w==T);$('heo').classList.remove('walk');$('tho').classList.remove('walk');
+ el=n?nar:bub;if(!n){const c=C(),x=w==BN?68:w==H?($('ban').style.display=='block'?28:14+c*30):86-c*30;bub.style.left=Math.min(68,Math.max(32,x))+'%';bub.className=w}
+ el.style.animation='none';el.offsetWidth;el.style.animation='';type(t)}
+function say(l,done){q=l.slice();cb=done;next()}
+function next(){if(!q.length){const c=cb;cb=null;return c&&c()}let[w,t,e]=q.shift();if((w==H||w==T)&&['🥰','🥹','💞','😊'].includes(e)&&Math.random()<.35&&!t.startsWith('Ỏ'))t='Ỏooooo~ '+t;show(w,t,e)}
+app.onclick=()=>{if(typing){clearInterval(tmr);el.textContent=full;typing=false}else if(cb||q.length)next()};
+const CP={};function replayFrom(c){const p=CP[c];if(!p)return;gen++;clearInterval(window.EI);i=p.i;score=p.score;fl={...p.fl};$('endp').style.display='none';$('endp').innerHTML='';$('big').style.display='none';$('fill').style.width=C()*100+'%';ch='';q=[];cb=null;cs.innerHTML='';place();scene()}
+function chapter(c,go){ci++;CP[c]={i,score,fl:{...fl}};$('zoom').style.animationName=ci%2?'kb2':'kb';$('zoom').style.filter=/^IX\./.test(c)?'saturate(.6) brightness(.9)':'';mood=/^IX\./.test(c)?'sad':'warm';const m=c.match(/^(\S+)\. (.*)/);card.innerHTML=`<small>${m?'Chương '+m[1]:'Chương cuối'}</small><b>${m?m[2]:c}</b><u></u>`;
+ card.className='';card.offsetWidth;card.className='show';cs.innerHTML='';nar.style.display=bub.style.display='none';
+ setTimeout(()=>{build(SCI[c.split('.')[0]]??8);$('chl').textContent=c;[$('heo'),$('tho')].forEach((e,k)=>{e.classList.remove('on');e.style.transition='none';e.style.left=k?'118%':'-18%'});
+  $('link').style.width='0';app.offsetWidth;[$('heo'),$('tho')].forEach(e=>{e.style.transition='';e.classList.add('walk')});place()},1100);
+ {const g0=gen;setTimeout(()=>{if(g0==gen){card.className='';go()}},2600)}}
+function scene(){rx=0;gateOff();while(i<S.length&&!ok(S[i].if))i++;if(i>=S.length)return end2();const s=S[i];turn(s.w);const go0=()=>{popOff();if(s.pc)popOn(s.pc);app.classList.toggle('hl',!!s.hl);if(s.hl||s.md=='sad')mood='sad';else if(s.md=='tense')mood='tense';else if(!/^IX\./.test(s.c))mood='warm';if(s.b!=null)build(s.b);$('ban').style.display=s.ban?'block':'none';$('tho').style.display=s.ban?'none':'';act(s.a);hp();say(s.l,()=>choose(s))};const go=()=>{if(s.t){const g0=gen;card.innerHTML='<small>'+s.t+'</small><b></b><u></u>';card.className='';card.offsetWidth;card.className='show';cs.innerHTML='';setTimeout(()=>{if(g0==gen){card.className='';go0()}},2100)}else go0()};if(s.c!=ch){ch=s.c;chapter(s.c,go)}else go()}
+function choose(s){show(N,s.q);const cd=$('cd'),pcx=$('pc');if(cd)cd.style.opacity=0;if(pcx)pcx.style.opacity=0;$('cam').classList.remove('haspc');$('heo').classList.toggle('on',s.w==H);$('tho').classList.toggle('on',s.w==T);cs.innerHTML='';
+ s.o.forEach(o=>{const b=document.createElement('button');b.textContent=o.t;b.onclick=e=>{e.stopPropagation();cs.innerHTML='';
+  rx=1;score+=o.v;if(o.v<=1)fl.cold=(fl.cold||0)+1;if(o.f)fl[o.f]=1;if(o.f2)fl[o.f2]=1;$('fill').style.width=C()*100+'%';place();heart(12);if(o.m)moment(o.m);i++;
+  say([[s.w,o.t]].concat(o.r.filter(r=>r[1])),()=>s.ga?gate(s.ga,scene):scene())};cs.append(b)})}
+function end(){$('turn').textContent='Kết thúc';const r=C(),k=r>.85?2:r>.65?1:0;
+ const msg=E[k][1]+(fl.honest&&fl.sorry?' Nhờ biết xin lỗi và nói thật, hai đứa thấu hiểu nhau hơn bao giờ hết.':'')+(fl.letter&&fl.future?' Lá thư Heo viết năm ấy, Thỏ vẫn giữ trong chiếc hộp nhỏ, cạnh những tấm ảnh photobooth. 💌':'');
+ score=max;place();act('dance');$('big').style.display='block';heart(30);$('fill').style.width='100%';
+ say([[N,'Mức thấu hiểu: '+Math.round(r*100)+'%'],[N,msg],[N,'Heo & Thỏ, mãi bên nhau. 🐷💞🐰']],()=>{show(N,'Chạm để chơi lại ↺');cb=()=>location.reload()})}
+
+const ok=c=>!c||(c[0]=='!'?!fl[c.slice(1)]:fl[c]);
+const SCI={I:0,II:1,III:2,IV:3,V:4,VII:9,VIII:5,IX:6,X:7};
+SC[9]={sky:'#1b0d2e,#5a1b4a',fx:'lantern',g:'#2a1230',p:[['🎆','12%','8%',60,'glow'],['🎇','72%','6%',54,'glow'],['⛩️','44%','26%',72,''],['🏮','4%','30%',30,'bob']]};
+function emo(w,e){const c=C(),m=document.createElement('span');m.className='em';m.textContent=e;m.style.left=(w==H?14+c*30:w==T?86-c*30:50)+'%';$('cam').append(m);setTimeout(()=>m.remove(),1800)}
+function moment(k){const m=document.createElement('span');m.className='mo '+k;m.textContent={kiss:'💋',hug:'🫂',fire:'🎆',gift:'🎁',star:'🌠',bag:'🎒',scare:'👻',jolli:'🍗',lau:'🍲'}[k];$('cam').append(m);setTimeout(()=>m.remove(),3200);
+ if(k=='hug'||k=='kiss'){$('heo').style.left='43%';$('tho').style.left='57%';$('link').style.width='0';setTimeout(place,2800);ring(50,70,k=='kiss'?'💋':'💞',10);if(k=='kiss'){const c=$('cu');c.classList.remove('go');c.offsetWidth;c.classList.add('go');setTimeout(()=>c.classList.remove('go'),3500)}$('heo').style.setProperty('--r','16deg');$('tho').style.setProperty('--r','16deg');[spr('heo'),spr('tho')].forEach(e=>e.animate([{scale:1},{scale:1.18},{scale:1},{scale:1.12},{scale:1}],{duration:1400}));$('zoom').animate([{transform:'scale(1)'},{transform:'scale(1.2)'},{transform:'scale(1)'}],{duration:3000,easing:'ease-in-out'})}
+ if(k=='bag'){$('cam').animate([{transform:'translateX(0)'},{transform:'translateX(-9px)'},{transform:'translateX(9px)'},{transform:'translateX(0)'}],{duration:260,iterations:3});emo(H,'💦');setTimeout(()=>emo(H,'😳'),600)}
+ if(k=='scare'){$('cam').animate([{transform:'translateX(0)'},{transform:'translateX(-7px)'},{transform:'translateX(7px)'},{transform:'translateX(0)'}],{duration:200,iterations:4});emo(T,'😱')}
+ if(k=='jolli')shower(['🍟','🍗','🍔']);if(k=='lau')shower(['♨️','💨'],1)
+ if(k=='fire')for(let n=0;n<9;n++){const f=document.createElement('span');f.className='fw';f.textContent=['🎆','🎇','✨'][n%3];f.style.cssText=`left:${rnd(8,88)}%;top:${rnd(4,36)}%;animation-delay:${n*.22}s`;$('cam').append(f);setTimeout(()=>f.remove(),3500)}
+ heart(8);const fl2=$('flash');fl2.classList.remove('go');fl2.offsetWidth;fl2.classList.add('go');$('cam').animate([{transform:'scale(1)'},{transform:'scale(1.07)'},{transform:'scale(1)'}],{duration:1100})}
+function shower(l,up){for(let n=0;n<14;n++){const m=document.createElement('span');m.className='p'+(up?' bubble':'');m.textContent=l[n%l.length];m.style.left=rnd(5,92)+'%';m.style.animationDuration=rnd(2,3.4)+'s';m.style.animationDelay=rnd(0,.8)+'s';fx.append(m);setTimeout(()=>m.remove(),4500)}}
+function credits(done){card.className='cr';card.innerHTML='<div class="roll"><p>🐷 Heo<br>chàng kỹ sư vụng về mà chân thành</p><p>🐰 Thỏ<br>cô sinh viên sư phạm nghịch ngợm</p><p>Kịch bản<br>từng ngày hai đứa yêu nhau</p><p>Đạo cụ<br>một chiếc cặp chéo, một hộp Jollibee, hai tấm vé photobooth</p><p>Cảm ơn Thỏ đã đến bên Heo 💞</p></div>';let d=0;const fin=()=>{if(d++)return;card.className='';card.onclick=null;done()};setTimeout(fin,9000);card.onclick=e=>{e.stopPropagation();fin()}}
+function A(q,add,n=0){let k=-1,c=0;S.forEach((s,j)=>{if(s.q===q&&c++==n)k=j});S.splice(k+1,0,...add)}
+A('Heo đáp lại thế nào?',[
+{c:'I. Quen nhau',w:T,l:[[N,'Đêm khuya, Thỏ bắt Heo học câu đầu tiên bằng tiếng Trung.'],[T,'Nhớ nhé: wǒ xǐhuān nǐ… nghĩa là gì, đoán thử?','😏']],q:'Thỏ muốn Heo…',o:[
+{t:'Bắt Heo đọc lại mười lần cho chuẩn',r:[[H,'Wǒ… xǐhuān… nǐ. Sao càng đọc anh càng đỏ mặt vậy?','😳'],[T,'Vì anh vừa nói ra thứ anh giấu cả tuần nay đó.']],v:2,f:'cn'},
+{t:'“Anh không cần dịch đâu, em biết rồi.”',r:[[H,'Em biết từ lúc nào?'],[T,'Từ lúc anh nhắn “ngủ ngon” mà mất ba tiếng mới chịu tắt máy.','😆']],v:2}]},
+{c:'I. Quen nhau',w:H,l:[[N,'Một đêm, hai màn hình cùng sáng. Ngoài cửa sổ, một ngôi sao băng vụt qua.']],q:'Heo ước…',o:[
+{t:'“Ước mình sớm gặp nhau ngoài đời.”',r:[[T,'Em cũng vừa ước điều đó.','💞']],v:3,f:'wish',m:'star'},
+{t:'Lặng im, vì lời ước đã nằm trong tim rồi',r:[[T,'Anh ước gì thế?'],[H,'Nói ra thì mất linh. Nhưng có em trong đó.']],v:2,m:'star'}]}]);
+A('Thỏ sẽ…',[{c:'II. Lần đầu gặp mặt',w:T,l:[[N,'Trời nhá nhem. Heo chở Thỏ về, gió thổi tung mái tóc em.']],q:'Thỏ ngồi sau xe…',o:[
+{t:'Khẽ vòng tay ôm eo anh',r:[[H,'(cứng đơ, cầm lái thẳng băng) E-em ôm chắc chưa?','😳'],[T,'Anh run kìa Heo ơi.']],v:3,m:'hug'},
+{t:'Nắm nhẹ vạt áo, tựa đầu vào lưng anh',r:[[H,'Anh sẽ chạy thật chậm, để đường này dài ra nhé.','🥰']],v:3}]}]);
+A('Heo nói gì?',[{c:'III. Quay lại Trung Quốc',w:T,l:[[N,'Mỗi tối, Heo gọi video. Phía bên kia, trăng cũng treo trên mái nhà Thỏ.']],q:'Thỏ chỉ lên trời…',o:[
+{t:'“Anh nhìn xem, cùng một mặt trăng đó!”',r:[[H,'Vậy là mặt trăng đang kể cho em nghe rằng anh nhớ em.','💞']],v:3,f:'moon'},
+{t:'Hát ru anh ngủ qua điện thoại',r:[[H,'Em hát dở ơi là dở… nhưng đừng dừng nhé.','🥹'],[N,'Đêm ấy Heo ngủ quên, màn hình vẫn sáng, tiếng Thỏ vẫn ngân nhỏ.']],v:3}]}]);
+A('Thỏ trả lời…',[{c:'IV. Nói lời yêu',w:H,l:[[N,'Buổi hẹn đầu tiên với tư cách người yêu. Hai đứa đi dạo, tay vô tình chạm tay.']],q:'Heo…',o:[
+{t:'Nắm lấy tay Thỏ, siết nhẹ',r:[[T,'Tay anh ấm quá.','😊'],[H,'Anh sẽ nắm đến khi em bảo buông thì thôi.']],v:3},
+{t:'Mua hai ly trà sữa, hút chung một ống',r:[[T,'Heo! Mất vệ sinh!','😆'],[H,'Nhưng em cười rồi kìa.']],v:2}]}]);
+A('Lúc trao quà, Thỏ nói…',[
+{c:'V. Valentine đầu tiên',w:H,l:[[N,'Đến lượt Heo tặng lại. Cậu loay hoay giấu một thứ sau lưng.']],q:'Heo tặng Thỏ…',o:[
+{t:'Một lá thư tay viết nắn nót cả đêm',r:[[T,'Chữ anh xấu thế mà em đọc xong khóc luôn.','🥹']],v:4,f:'letter',m:'gift'},
+{t:'Một bó hoa nhỏ và lời “anh yêu em” thật to',r:[[T,'Heo, mọi người đang nhìn kìa!','😳'],[H,'Kệ họ, anh muốn cả thế giới biết.']],v:3,m:'gift'}]},
+{c:'VII. Tết đầu tiên',w:H,l:[[N,'Tết đầu tiên của hai đứa. Đi chùa, ăn hội, rồi dạo hội Cổ Loa. Pháo hoa bung sáng cả bầu trời.']],q:'Dưới pháo hoa, Heo…',o:[
+{t:'Chắp tay cầu bình an cho Thỏ trước, cho mình sau',r:[[T,'Sao anh cầu cho em trước?'],[H,'Vì em bình an là anh bình an.','🥰']],v:4,f:'wish',m:'fire'},
+{t:'Quay sang hôn má Thỏ thật to, thật kêu',r:[[T,'Hôm nay anh dạn dĩ ghê nha!','😆'],[H,'Hết ngại rồi mà!']],v:3,m:'fire'}]}]);
+A('Thỏ sẽ…',[
+{c:'VIII. Hạnh phúc và những cơn giận',w:H,l:[[N,'Tháng Năm, hai đứa cãi nhau. Những câu nói vụt ra mà không kịp nghĩ.']],q:'Heo quyết định…',o:[
+{t:'“Mình dừng lại một thời gian để hiểu nhau hơn nhé.”',r:[[T,'…Ừ. Em cũng đang rối lắm.']],v:1},
+{t:'“Anh không muốn bỏ cuộc. Anh vẫn ở đây.”',r:[[T,'Anh ngốc thật đấy…','🥹']],v:3,f:'fight'}]},
+{c:'VIII. Hạnh phúc và những cơn giận',w:T,l:[[N,'Mấy ngày sau, Thỏ đứng dưới mưa nhỏ trước cửa nhà Heo, tay cầm chiếc ô.']],q:'Thỏ…',o:[
+{t:'Chạy đến ôm Heo: “Em nhớ anh lắm.”',r:[[H,'Em ướt hết rồi, vào đây anh lau cho.','💞']],v:3,m:'hug'},
+{t:'Đưa chiếc ô: “Em xin lỗi. Mình nói chuyện nhé?”',r:[[H,'Anh cũng xin lỗi. Mình đừng giận nhau lâu nữa.']],v:3,f:'sorry',m:'hug'}]}],1);
+A('Bây giờ nghĩ lại, Heo nói…',[
+{c:'IX. Kỉ niệm buồn',if:'honest',w:T,l:[[N,'Tối đó, Thỏ nhận được tin nhắn dài của Heo, từng dòng đều thật lòng.']],q:'Thỏ…',o:[
+{t:'Gọi ngay: “Em đọc hết rồi, em ở đây.”',r:[[H,'Cảm ơn em vì đã hiểu.','🥹']],v:3},
+{t:'Hẹn bù một buổi đi chơi thật dài',r:[[H,'Anh đếm từng ngày luôn.']],v:3}]},
+{c:'IX. Kỉ niệm buồn',if:'!honest',w:T,l:[[N,'Thỏ nhận ra Heo còn giấu một nỗi buồn sau câu “không sao đâu”.']],q:'Thỏ…',o:[
+{t:'Nhắn: “Em biết anh còn buồn. Nói em nghe đi.”',r:[[H,'…Anh sợ em bận, sợ em xa anh.'],[T,'Em không xa. Em chỉ cần anh nói thôi.']],v:3,f:'honest'},
+{t:'Im lặng, nhẹ nhàng gửi một cái ôm',r:[[H,'Anh xin lỗi vì đã giấu em.']],v:2}]}]);
+A('Heo nói…',[
+{c:'X. Sau cơn mưa trời lại sáng',w:T,l:[[N,'Hai đứa bước vào tiệm photobooth. Màn hình đếm ngược: 3… 2… 1…']],q:'Khung hình cuối, Thỏ…',o:[
+{t:'Hôn má Heo ngay lúc đèn flash nháy',r:[[H,'(mắt trợn tròn trong khung ảnh) Tấm này anh cất cả đời.','😳']],v:3,m:'kiss'},
+{t:'Quay sang ôm Heo thật chặt',r:[[H,'Ảnh đẹp nhất là tấm có em trong vòng tay anh.']],v:3,m:'hug'}]},
+{c:'X. Sau cơn mưa trời lại sáng',w:T,l:[[N,'Hoàng hôn buông xuống. Heo bỗng hỏi một câu rất nhỏ.'],[H,'Thỏ muốn mình cùng đi đâu vào năm sau?']],q:'Thỏ mơ về…',o:[
+{t:'Một chuyến biển, hai đứa ngắm bình minh',r:[[H,'Anh sẽ đặt vé ngay.','🥰']],v:3,f:'future'},
+{t:'Một căn nhà nhỏ, có Heo và Thỏ ở trong',r:[[H,'Anh nghe rồi. Anh nhớ rồi.','🥹']],v:4,f:'future'}]}]);
+S.forEach(s=>{if(!(s.if&&s.if[0]=='!'))max+=Math.max(...s.o.map(o=>o.v))});E[0][0]=0;E[1][0]=.65;E[2][0]=.85;
+const getU=()=>{try{return JSON.parse(localStorage.ed||'[]')}catch(_){return[]}};
+
+SC[1].p.push(['🏍️','-12%','62%',40,'fly']);SC[0].p.push(['💌','50%','38%',26,'drift']);
+SC[10]={sky:'#ffb3a0,#ffe9c9',fx:'bubble',g:'#3f8fbf',p:[['☀️','70%','6%',60,'glow'],['⛵','14%','34%',44,'drift'],['🕊️','-10%','14%',36,'fly'],['🐚','80%','70%',24,'bob']]};SCI.XI=10;
+A('Thỏ mơ về…',[
+{c:'XI. Biển và sinh nhật',w:H,l:[[N,'Sinh nhật Thỏ, ngay trước chuyến đi biển. Heo giấu quà sau lưng, tim đập như trống.'],[H,'Nhắm mắt lại nào, em yêu.','😏']],q:'Heo tặng Thỏ…',o:[
+{t:'Một cuốn album ảnh photobooth và những tấm vé của hai đứa',r:[[T,'Anh giữ hết cả những thứ nhỏ xíu ấy sao…','🥹']],v:4,f:'album',m:'gift'},
+{t:'Một sợi dây chuyền hình chú thỏ nhỏ',r:[[T,'Anh đeo cho em đi. Em muốn nó ở sát tim.','😊']],v:3,m:'gift'}]},
+{c:'XI. Biển và sinh nhật',w:T,l:[[N,'Bình minh trên biển. Sóng vỗ nhẹ, cát còn ấm hơi sương. Hai đứa đi chân trần cạnh nhau.']],q:'Thỏ…',o:[
+{t:'Viết tên hai đứa lên cát, trong một trái tim thật to',r:[[H,'Sóng sắp xóa mất rồi kìa!','😳'],[T,'Không sao, em sẽ viết lại mỗi năm.','💞']],v:4,f:'sea',m:'kiss'},
+{t:'Kéo Heo chạy trên sóng, cười thật to',r:[[H,'Anh ướt hết rồi!'],[T,'Ướt cùng em thì anh chịu đi.','😆']],v:3,m:'hug'}]},
+{c:'XI. Biển và sinh nhật',w:H,l:[[N,'Đêm xuống. Hai đứa nằm trên bờ cát, trên đầu là cả dải ngân hà.']],q:'Heo thì thầm…',o:[
+{t:'“Dù sau này thế nào, anh vẫn sẽ chọn em.”',r:[[T,'Em cũng vậy. Hứa nhé.','🥹']],v:4,m:'star'},
+{t:'“Mỗi ngôi sao kia là một lần anh nhớ em đó.”',r:[[T,'Vậy anh nhớ em nhiều hơn cả sao rồi.','😊']],v:4,m:'star'}]}]);
+max=0;S.forEach(s=>{if(!(s.if&&s.if[0]=='!'))max+=Math.max(...s.o.map(o=>o.v))});
+A('Thỏ sẽ…',[
+{c:'II. Lần đầu gặp mặt',w:H,l:[[N,'Má Heo vẫn còn nóng ran sau cái hôn bất ngờ. Rồi Thỏ giang tay ra: “Ôm cái nào.”'],[N,'Vấn đề là Heo đang đeo chiếc cặp chéo, và vì “một tình huống ngoài ý muốn”, cậu đã kéo nó ra phía trước từ lúc nào không hay.']],q:'Heo ôm Thỏ kiểu gì đây?',o:[
+{t:'Ôm hờ hững, chừa một khoảng cách “an toàn”',r:[[T,'Anh ôm gì mà như ôm cái gối thế?','😆'],[H,'Ờ… tại… anh sợ làm em đau!','😳']],v:2,f:'bag',m:'bag'},
+{t:'Ôm thật chặt, nhưng chiếc cặp vẫn kẹt ở giữa',r:[[T,'Sao lại có cái cặp chắn giữa hai đứa mình vậy?','🤨'],[H,'Là cái cặp! Cặp thôi!','😳'],[N,'Chiếc cặp chéo, nhân vật chính bất đắc dĩ của ngày hôm đó.']],v:3,f:'bag',m:'bag'}]},
+{c:'II. Lần đầu gặp mặt',w:T,l:[[N,'Thỏ nhìn chiếc cặp, rồi nhìn gương mặt đỏ như gấc của Heo.']],q:'Thỏ…',o:[
+{t:'Giả vờ không nhận ra, cười mím môi',r:[[H,'(thở phào) May quá…'],[T,'(thầm nghĩ) Đồ ngố của em.','😏']],v:2},
+{t:'Trêu: “Cặp của anh to ghê, mang theo cả nhà à?”',r:[[H,'Em đừng trêu nữa mà!','🙈'],[T,'Hihi, em trêu đến già luôn.','😆']],v:3,f:'tease'}]}]);
+A('Heo thì thầm…',[
+{c:'XII. Chuyện chỉ hai đứa biết',w:T,l:[[N,'Có những chuyện nhỏ xíu, chỉ hai đứa hiểu. Hôm nay là Jollibee.'],[T,'Em muốn gà rán! Cho thêm sốt nữa nhé.','😋']],q:'Thỏ…',o:[
+{t:'Đút cho Heo một miếng khoai tây chiên',r:[[H,'Ngon thật. Vì em đút đó.','🥰']],v:3,f:'jolli',m:'jolli'},
+{t:'Giấu miếng gà cuối, đợi Heo năn nỉ',r:[[H,'Nhìn em ăn là anh no rồi… cho anh cắn một miếng nhé?','🥺'],[T,'Không! … (rồi chia đôi cho Heo)']],v:3,f:'jolli',m:'jolli'}]},
+{c:'XII. Chuyện chỉ hai đứa biết',w:H,l:[[N,'Thỏ kéo Heo đi ăn Dookki. Heo không thích món đó, vì lần nào cũng bị giao nhiệm vụ pha nước lẩu.']],q:'Heo…',o:[
+{t:'Ngoan ngoãn pha nước lẩu, mặt méo xệch',r:[[T,'Heo của em giỏi nhất!','🥰'],[H,'Chỉ vì em mà anh chịu nhé.']],v:3,m:'lau'},
+{t:'Pha thật cay để Thỏ phải xin nước',r:[[T,'Heo!! Cay quá! Anh xấu tính!','😭'],[H,'Rồi rồi, anh pha lại ngọt cho.','😅']],v:2,m:'lau'}]},
+{c:'XII. Chuyện chỉ hai đứa biết',w:H,l:[[N,'Dịp Tết, hai đứa đi chơi cả tuần liền, đến mức mẹ Tuyết cũng phải cười hỏi.'],[N,'“Hai đứa đi hoài thế, có cho mẹ gặp con một chút không?”']],q:'Heo đáp lại…',o:[
+{t:'Gãi đầu: “Dạ, tại con thích đi với em quá.”',r:[[T,'Heo kìa, còn nói thẳng thế!','🙈']],v:3},
+{t:'Kéo tay Thỏ chạy biến, để lại tiếng cười phía sau',r:[[T,'Trời ơi mất mặt!','😳'],[H,'Mất mặt cùng em thì anh chịu.']],v:2}]},
+{c:'XII. Chuyện chỉ hai đứa biết',w:T,l:[[N,'Có biệt danh nào đẹp hơn “Heo” và “Thỏ”? Hai cái tên do chính hai đứa đặt, từ những ngày còn ở hai đầu nhớ nhung.']],q:'Thỏ gọi Heo…',o:[
+{t:'“Heo ơi!” thật ngọt, thật dài',r:[[H,'Nghe tên mình từ miệng em là biết hôm nay sẽ ổn.','🥰']],v:3,f:'nick'},
+{t:'“Cậu bé ngây thơ của em!”',r:[[H,'Em đừng nhắc chuyện cái cặp nữa!','🙈'],[T,'Em nhớ hoài luôn, khó quên mà.','😆']],v:3,f:'nick'}]}]);
+SC[11]={sky:'#ffcf9e,#ffb3c6',fx:'heart',g:'#a35a6a',p:[['🍗','12%','30%',40,'bob'],['🍲','80%','30%',40,'bob'],['🍟','46%','16%',34,'bob'],['🏮','88%','8%',30,'bob']]};SCI.XII=11;
+max=0;S.forEach(s=>{if(!(s.if&&s.if[0]=='!'))max+=Math.max(...s.o.map(o=>o.v))});
+const O=S.slice(),cI='I. Quen nhau',cIII='III. Quay lại Trung Quốc',cVI='VI. Valentine đầu tiên',cVII='VII. Tết đầu tiên',cVIII='VIII. Hạnh phúc và những cơn giận',cIX='IX. Đêm Trung thu',cX='X. Sau cơn mưa trời lại sáng',cF='Ghế đá ngày xưa';
+const NW=[
+{c:cIII,w:H,l:[[N,'Ở bên này lạnh và dài lắm. Nhưng cứ nghĩ tới ngày về gặp Thỏ, Heo lại xỏ giày ra phòng gym.'],[T,'Anh Heo, nhớ tập đủ nhé, em kiểm tra đó!','😏']],q:'Heo thì thầm với chính mình…',o:[{t:'“Phải thật đẹp trai để xứng với em.”',r:[[T,'Anh đã đẹp trai rồi, chỉ cần đừng ăn đêm!','😆']],v:3},{t:'“Khỏe mạnh để bảo vệ em lâu thật lâu.”',r:[[T,'Hứa là phải giữ nhé.','🥹']],v:3}]},
+{c:'V. Những đêm làm việc',w:H,l:[[N,'Về nước rồi, việc ngập đầu. Có hôm Heo làm đến 11 giờ, rồi 1 giờ sáng.'],[T,'Anh ăn chưa? Làm xong nhắn em nhé. Em chờ.','🥺']],q:'Heo trả lời Thỏ…',o:[{t:'“Xong rồi, anh phóng qua nhà em một chút.”',r:[[T,'Khuya lắm rồi mà!','😳'],[H,'Chỉ cần nhìn em một cái là anh có sức cày tiếp.']],v:3},{t:'“Em ngủ đi, mai anh kể em nghe nhé.”',r:[[T,'Không, em muốn nghe anh kể ngay bây giờ cơ.','🥺']],v:2}]},
+{c:'V. Những đêm làm việc',w:T,l:[[N,'Có một bóng người phóng xe qua cổng nhà Thỏ lúc nửa đêm, chỉ để tranh thủ một nụ hôn rồi mới chịu về.']],q:'Thỏ…',o:[{t:'Chạy ra hôn nhẹ lên má anh: “Về cẩn thận nhé.”',r:[[H,'Có nụ hôn này, anh làm thêm mười tiếng cũng được.','🥰']],v:3,m:'kiss'},{t:'Đưa hộp sữa ấm: “Uống rồi hãy về.”',r:[[H,'Em lo cho anh vậy… anh biết đền sao đây.','🥹']],v:3}]},
+{c:cVIII,w:H,b:8,l:[[N,'Gần sinh nhật Heo. Nước mắt vừa khô, hai đứa vẫn còn chút ngượng ngùng với nhau. Rồi sau chuyến Lotte, chẳng hiểu sao cả hai cùng muốn có một nơi chỉ của riêng mình.'],[T,'Mình đi homestay nhé? …Em hơi run.','😳']],q:'Heo…',o:[{t:'Nắm tay Thỏ: “Anh cũng run. Mình có đêm nay, và cả đời để từ từ.”',r:[[N,'Đêm ấy là lần đầu của cả hai. Đèn mờ đi, chỉ còn hai trái tim đập chung một nhịp.'],[T,'Cảm ơn anh vì đã dịu dàng.','🥹']],v:4,m:'hug'},{t:'Ôm Thỏ vào lòng: “Em muốn dừng lúc nào cũng được.”',r:[[T,'Em muốn ở đây, với anh.','💞'],[N,'Hai đứa làm hòa trong vòng tay nhau.']],v:4,m:'hug'}]},
+{c:cIX,hl:1,b:6,w:H,l:[[N,'Đêm Trung thu. Heo mua sẵn hai chiếc đèn lồng nhỏ, nhắn tin rủ Thỏ đi chơi, rồi đứng chờ ngoài cổng, tưởng tượng cảnh hai đứa dắt tay nhau dạo phố.'],[H,'Thỏ ơi, tối nay mình đi chơi Trung thu nhé? Anh qua đón em!','🥰'],[N,'Điện thoại sáng lên.'],[T,'Anh ơi… em xin lỗi, tối nay em phải cùng đoàn ra phát kẹo cho các em nhỏ, em không đi được rồi…','😢']],q:'Heo trả lời…',o:[{t:'“Ừ, em đi đi. Anh không sao.”',r:[[N,'Heo gõ xong, bấm gửi, ngồi xuống bậc thềm, tay vẫn nắm chặt hai chiếc đèn lồng.']],v:1},{t:'“Anh chờ em cả tuần rồi… sao em luôn bận?”',r:[[T,'Anh… đừng nói vậy mà.','🥺'],[N,'Tin nhắn đã gửi. Heo biết mình vừa nói quá, nhưng không rút lại được.']],v:2}]},
+{c:cIX,hl:1,w:T,l:[[N,'Giữa sân, Thỏ đang phát kẹo cho đám trẻ con reo hò quanh mình, ánh đèn lồng lấp lánh trên áo đoàn. Nhưng em liếc xuống điện thoại, và lòng nặng trĩu.']],q:'Thỏ…',o:[{t:'Nhờ bạn trông giúp một chút, chạy ra góc sân gọi cho Heo',r:[[T,'Anh ơi, em nghe đây. Em xin lỗi.','😢'],[H,'…Anh không giận. Chỉ là anh nhớ em.','🥹']],v:3},{t:'Nhắn: “Mai em bù cho anh nhé”, rồi làm tiếp',r:[[N,'Tin nhắn đó, mãi đến khuya Heo mới đọc.']],v:1}]},
+{c:cIX,hl:1,w:H,l:[[N,'Mười giờ đêm. Phố vẫn rộn tiếng trống lân, còn Heo ngồi trước hai chiếc đèn lồng đã tắt từ lúc nào.'],[N,'Bao lần Thỏ bận, Heo vẫn tự nhủ: không sao đâu, em ấy đang cố gắng mà. Chỉ có hôm nay, nỗi tủi thân dâng lên đến nghẹn.']],q:'Heo…',o:[{t:'Tắt điện thoại, khóc lặng lẽ một mình',r:[[N,'Một giọt nước mắt rơi trên chiếc đèn lồng. Không ai thấy, ngoài cơn mưa.']],v:1},{t:'Viết một tin nhắn thật lòng nhưng không gửi',r:[[N,'“Anh chỉ muốn em ở cạnh anh, dù chỉ một chút.” Con trỏ chớp, rồi Heo bấm lưu nháp.']],v:2,f:'draft'}]},
+{c:cIX,hl:1,w:T,l:[[N,'Mười một giờ, kẹo đã phát hết, lũ trẻ đã về, sân đoàn vắng dần. Thỏ mở lại tin nhắn của Heo, và tim thắt lại. Ngoài trời, mưa nặng hạt.']],q:'Thỏ quyết định…',o:[{t:'Phóng xe qua mưa, chạy thẳng đến nhà Heo',r:[[N,'Mưa tạt vào mặt, nhưng Thỏ chỉ sợ một điều: đến muộn.']],v:4,f:'came',m:'star'},{t:'Gọi điện, nhưng Heo không bắt máy; Thỏ ngồi lại, nước mắt rơi',r:[[N,'Có những đêm hai người cùng buồn ở hai nơi, chỉ cách nhau một cuộc gọi chưa kịp nối.']],v:1}]},
+{c:cIX,hl:1,if:'came',w:H,l:[[N,'Tiếng gõ cửa vang lên giữa đêm. Heo mở cửa: Thỏ ướt sũng, tay run, mắt đỏ hoe.'],[T,'Em xin lỗi… em xin lỗi vì để anh một mình.','😭']],q:'Heo…',o:[{t:'Kéo Thỏ vào lòng, ôm thật chặt: “Anh mới là người xin lỗi.”',r:[[T,'Anh không có lỗi. Em cũng nhớ anh lắm.','🥹'],[N,'Hai chiếc đèn lồng nhỏ được thắp lên trong căn phòng. Trung thu của hai đứa muộn mấy tiếng, nhưng ấm hơn bao giờ hết.']],v:5,f:'tears',m:'hug'},{t:'Lau nước mưa trên mặt Thỏ: “Vào đi, đừng để cảm.”',r:[[T,'Anh không giận em chứ?'],[H,'Anh giận chính mình hơn. Vào nhà đi.']],v:4,m:'hug'}]},
+{c:cF,w:H,l:[[N,'Hôm nay hai đứa lại ngồi ở đúng chiếc ghế đá của buổi gặp đầu tiên. Gió chiều khẽ lay mái tóc Thỏ.'],[H,'Thỏ ơi, hôm đó anh run lắm. Anh sợ em chê anh nhạt, sợ cả chiếc cặp ngớ ngẩn của anh nữa.','😳'],[T,'Đồ ngố…','😆'],[H,'Hôm nay anh có món quà nhỏ cho em. Nhưng điều anh muốn nói còn lớn hơn cả món quà.']],q:'Heo mong muốn…',o:[
+{t:'“Mong mỗi chiều đều được ngồi cạnh em, từ ghế đá này đến khi tóc bạc.”',r:[[T,'Vậy em sẽ già đi cùng anh.','🥹']],v:4,f:'long'},
+{t:'“Mong anh là bờ vai để em dựa vào, mỗi khi em mệt, em giận hay em vui.”',r:[[T,'Em cũng sẽ là nơi anh trở về.','💞']],v:4,f:'truth'},
+{t:'“Mong em giữ mãi nét nghịch ngợm đáng yêu ấy, để anh được ngắm thật lâu.”',r:[[T,'Vậy anh phải chịu em cả đời đó nhé!','😆']],v:3}]},
+{c:cF,w:T,l:[[N,'Thỏ mở món quà nhỏ. Bên trong là một dòng chữ viết tay: “Gửi Thỏ, người làm cho mọi hành trình của anh đều có nơi để trở về.”'],[N,'Mắt Thỏ đỏ hoe, nụ cười lại bật ra.']],q:'Thỏ đáp lại…',o:[
+{t:'Hôn má Heo thật to, thật kêu, như hôm xưa',r:[[H,'Lần này anh không ngại nữa. Anh hôn lại, chụt thật to nè!','🥰'],[N,'Hai đứa cười vang. Chiếc ghế đá năm xưa chứng kiến thêm một lời hẹn.']],v:4,m:'kiss'},
+{t:'Tựa đầu vào vai Heo: “Em yêu anh. Mình đi tiếp nhé.”',r:[[H,'Ừ, đi tiếp. Dù đường có dài hay có mưa.','💞']],v:4,m:'hug'}]}];
+const L=(o,c)=>(o.c=c,o),B=(o,b)=>(o.b=b,o);
+S.splice(0,S.length,O[0],O[1],O[5],O[6],O[7],O[8],O[9],O[2],O[3],O[4],NW[0],O[13],O[12],L(O[33],cIII),O[14],O[15],NW[1],NW[2],L(O[16],cVI),L(O[17],cVI),O[18],L(O[32],cVII),
+ O[19],L(O[25],cVIII),B(O[10],5),B(O[11],5),NW[3],B(L(O[27],cVIII),4),B(L(O[28],cVIII),10),B(L(O[29],cVIII),10),
+ NW[4],NW[5],NW[6],NW[7],NW[8],L(O[20],cIX),L(O[21],cIX),L(O[22],cIX),L(O[23],cIX),L(O[30],cX),L(O[31],cX),O[24],O[26],NW[9],NW[10]);
+const V=cVIII,hh=(o)=>Object.assign({c:V,hl:1},o);
+const N8=[
+{c:V,b:11,w:H,l:[[N,'Hôm đó Heo đang nằm viện vì dị ứng, nhưng nhớ Thỏ đến mức trốn viện về để đi chơi Aeon Mall Long Biên.'],[T,'Anh khỏe thật chứ? Trông anh hơi nhợt đó.','🥺']],q:'Heo nói…',o:[{t:'“Anh khỏe lắm, có em là khỏe rồi.”',r:[[T,'Anh toàn nói dối!','😠']],v:2},{t:'Thú thật: “Anh trốn viện về đấy, vì nhớ em.”',r:[[T,'Anh điên à! Nhưng… em cảm động quá.','🥹']],v:3}]},
+{c:V,b:11,w:T,l:[[N,'Hai đứa vào Dookki. Heo tay nhanh, nêm nước dùng cay quá tay. Thỏ vừa ăn vừa ôm bụng, mặt nhăn lại.']],q:'Thỏ…',o:[{t:'Nén đau, nhăn mặt không nói gì',r:[[H,'Em sao thế? Anh hỏi mà em chẳng trả lời…','😟'],[N,'Im lặng giữa hai người nặng hơn cả bát nước cay.']],v:2},{t:'Dỗi: “Anh cho cay thế sao em ăn được?”',r:[[H,'Anh xin lỗi… anh không cố ý.','🥺'],[N,'Heo cúi đầu. Người vừa trốn viện để ngồi đây chợt thấy tủi.']],v:1}]},
+{c:V,b:11,w:H,l:[[N,'Trên đường ra bãi xe, cơn dị ứng tái phát: người Heo ngứa ran, nốt đỏ nổi khắp tay. Tới nơi, lại không thấy chìa khóa xe máy đâu.'],[T,'…Giờ làm sao?','😳']],q:'Heo…',o:[{t:'Vừa gãi vừa phì cười: “Thôi, đi taxi vậy.”',r:[[T,'Anh còn cười được hả?','😆']],v:3},{t:'Im lặng ngồi cạnh Thỏ, cố không gãi',r:[[T,'Anh gãi đi, đừng nhịn…','🥺']],v:2}]},
+{c:V,b:6,w:T,l:[[N,'Trong taxi, đèn phố chạy ngược qua cửa kính. Heo thì thầm: “Anh hy vọng sau này mình đừng vì giận dỗi mà làm hỏng buổi đi chơi nữa. Chả mấy khi mình gặp nhau mà.”']],q:'Thỏ…',o:[{t:'Nắm tay Heo: “Em xin lỗi. Em hứa sẽ không giận lâu nữa.”',r:[[H,'Anh cũng xin lỗi vì món cay đó.','🥹']],v:3,f:'sorry'},{t:'Tựa đầu vào vai Heo, không nói gì',r:[[H,'Vậy là đủ rồi.','💞']],v:2}]},
+hh({b:5,w:H,l:[[N,'Tháng Năm, trước sinh nhật Heo một tháng. Công việc dồn dập. Heo thỉnh thoảng bỏ lỡ tin nhắn của Thỏ, còn Thỏ thì để ý từng chút một.'],[N,'Một buổi chiều, Heo nhìn màn hình điện thoại mà lòng chùng xuống: nếu cứ bận thế này mãi, em sẽ cô đơn.']],q:'Heo nghĩ…',o:[{t:'“Mình không thể để em chờ đợi vô vọng.”',r:[[N,'Heo gõ rồi xóa, gõ rồi xóa. Cuối cùng cậu bấm gọi cho Thỏ.']],v:2},{t:'“Có lẽ dừng lại sẽ tốt cho cả hai.”',r:[[N,'Một ý nghĩ đau, nhưng Heo đã quyết.']],v:1}]}),
+hh({b:5,w:H,l:[[H,'Thỏ… mình dừng lại một thời gian để hiểu nhau hơn nhé.'],[T,'…Dừng lại là sao hả anh?','😢']],q:'Heo nói thêm…',o:[{t:'“Anh sợ anh bận quá, em sẽ cô đơn. Anh không hết yêu em.”',r:[[T,'Sao anh không hỏi em có muốn không?','😭']],v:4,f:'fight'},{t:'“Anh… chỉ nghĩ vậy là tốt cho cả hai.”',r:[[T,'Tốt cho ai chứ…','😭']],v:2}]}),
+hh({b:5,w:T,l:[[N,'Thỏ không cãi lại. Em chỉ nghe tiếng thở của Heo ở đầu dây, rồi nước mắt tự rơi.']],q:'Thỏ…',o:[{t:'“Em cần anh mà, đâu cần anh phải hoàn hảo.”',r:[[H,'(giọng nghẹn) Anh… anh cũng cần em.','😭']],v:4},{t:'Chỉ khóc, không nói được gì',r:[[H,'Đừng khóc… anh xin lỗi, anh xin lỗi…','😭']],v:2}]}),
+hh({b:6,w:H,l:[[N,'Đêm ấy, hai đứa gọi cho nhau mà không ai nói gì, chỉ khóc. Người nói dừng lại lại là người khóc nhiều hơn.'],[N,'Không ai nỡ cúp máy.']],q:'Heo…',o:[{t:'Để máy mở, im lặng nghe nhau thở đến sáng',r:[[T,'Anh còn đó không?'],[H,'Anh vẫn ở đây.']],v:3},{t:'Thì thầm: “Anh nhớ em lắm.”',r:[[T,'Em cũng nhớ anh, nhớ đến đau.','😭']],v:3}]}),
+hh({b:3,w:T,l:[[N,'Hôm gặp nhau, hai đứa chẳng nói câu nào. Thỏ lao vào lòng Heo, cả hai lại bật khóc giữa phố.'],[N,'Chính khoảnh khắc ấy, cả hai mới hiểu mình cần đối phương đến mức nào.']],q:'Thỏ…',o:[{t:'Ôm thật chặt: “Đừng bao giờ dừng lại nữa nhé.”',r:[[H,'Anh hứa. Dù bận thế nào anh cũng ở bên em.','🥹']],v:4,f:'sorry',m:'hug'},{t:'Lau nước mắt cho Heo: “Mình học cách nói với nhau, được không?”',r:[[H,'Được. Anh sẽ nói, em cũng sẽ nói.','💞']],v:4,f:'sorry',m:'hug'}]}),
+{c:V,b:4,w:H,l:[[N,'Một ngày nắng nhẹ, Thỏ kéo Heo vào tiệm photobooth. Đây là lần đầu tiên trong đời Heo chụp photobooth.'],[H,'Anh… anh chưa biết tạo dáng.','😳']],q:'Heo…',o:[{t:'Cười ngố nhìn thẳng ống kính',r:[[T,'Anh cười như đi chụp thẻ vậy!','😆']],v:2},{t:'Quay sang nhìn Thỏ, quên cả ống kính',r:[[T,'Anh nhìn em làm gì? Nhìn máy kìa!','🙈']],v:3}]},
+O[25],
+{c:V,b:7,w:H,l:[[N,'Chụp xong, hai đứa kéo nhau lên Lotte xem phim. Đến quầy vé, nhân viên nhìn vé rồi mỉm cười.'],[N,'“Phim này không chiếu hôm nay đâu ạ. Hai bạn mua nhầm vé ngày khác rồi.”']],q:'Heo và Thỏ…',o:[{t:'Nhìn nhau rồi cùng phá lên cười',r:[[T,'Hai đứa mình đúng là ngố hết chỗ nói!','😆']],v:3},{t:'Heo tự trách mình ngố, Thỏ xoa đầu an ủi',r:[[T,'Không sao, mình đi chỗ khác chơi.','🥰']],v:3}]},
+{c:V,b:11,w:T,l:[[N,'Hết phim thì đi dạo. Hai đứa ghé Muji, thử chăn đệm, nằm cạnh nhau trên chiếc giường trưng bày như một đôi vợ chồng son.']],q:'Thỏ…',o:[{t:'Thì thầm: “Sau này mình mua cái này nhé.”',r:[[H,'Ừ… mình mua. Anh nằm bên trái nhé.','😳']],v:4},{t:'Đắp chăn lên mặt Heo, cười khúc khích',r:[[H,'Em làm anh ngộp thở rồi!','😆']],v:3}]},
+NW[3]];
+S.splice(S.findIndex(x=>x.c==cVIII),S.filter(x=>x.c==cVIII).length-3,...N8);
+S.splice(S.indexOf(NW[8])+1,0,
+{c:cIX,hl:1,b:6,w:H,l:[[N,'Vài ngày sau, nỗi tủi thân vẫn chưa nguôi. Heo nhớ lại mình đã cư xử quá lên thế nào đêm Trung thu, và tự thấy mình đang làm Thỏ mệt mỏi.']],q:'Heo nói…',o:[{t:'Nói lời dừng lại lần thứ hai, giọng run run',r:[[T,'Lại nữa sao anh…','😭']],v:1},{t:'Chỉ nói: “Anh cần chút thời gian.”',r:[[T,'Bao lâu hả anh? Em sợ chờ lắm.','😢']],v:2}]},
+{c:cIX,hl:1,b:6,w:T,l:[[N,'Lần này không còn tiếng khóc ầm ĩ, chỉ có sự im lặng rất dài. Thỏ ngồi một mình, nhìn những tấm ảnh photobooth trên bàn.']],q:'Thỏ…',o:[{t:'Khóc, nhưng nhắn: “Em vẫn chờ anh.”',r:[[H,'Anh đọc rồi… anh xin lỗi vì đã làm em buồn.','🥹']],v:3},{t:'Viết tin nhắn thật dài, rồi xóa hết',r:[[N,'Có những điều muốn nói, nhưng không biết bắt đầu từ đâu.']],v:2}]});
+S.splice(S.indexOf(O[30]),0,{c:cX,b:7,w:T,l:[[N,'Rồi một hôm, Thỏ bất chợt gửi cho Heo cả một đống ảnh và sticker hồi bé của mình.']],q:'Thỏ gửi cho Heo…',o:[{t:'Cả đống ảnh hồi bé, kèm sticker siêu cute',r:[[H,'Anh thề là anh quên hết buồn tủi. Anh lại yêu em thêm một lần nữa. Nhìn em cute vãi!','🥰']],v:3},{t:'Một tấm bé nhất, kèm lời: “Anh nhìn em hồi bé này!”',r:[[H,'Cô bé này nghịch ngợm quá. Anh muốn bảo vệ cô bé này cả đời.','🥹']],v:3}]});
+{const ae=N8.slice(0,4);ae.forEach(x=>S.splice(S.indexOf(x),1));S.splice(S.indexOf(O[29])+1,0,...ae)}
+S.splice(S.indexOf(NW[0]),0,
+{c:cIII,b:0,w:H,l:[[N,'Thỏ vẫn hay gọi Heo là “siêu bạn thân”. Mỗi lần nghe, Heo vừa vui vừa tức.']],q:'Heo…',o:[{t:'Giả vờ giận: “Anh không làm bạn thân của em đâu.”',r:[[T,'Vậy anh muốn làm gì của em?','😏'],[H,'…Để anh về đã.','😳']],v:3,f:'bestie'},{t:'Cười trừ, thầm hứa: “Sắp tới anh sẽ nói rõ.”',r:[[T,'Em đợi đó nha.','😊']],v:2}]},
+{c:cIII,b:0,w:T,l:[[N,'Mỗi lần nhắn tin, Thỏ lại có một món tủ để trêu Heo.'],[T,'Heo ơi, hôm nay cái “cặp” của anh có đi làm không đó?','😏'],[H,'Em đừng nhắc nữa mà!','🙈']],q:'Thỏ trêu tiếp…',o:[{t:'“Em giữ bí mật mà. Chỉ trêu mỗi ngày thôi.”',r:[[H,'Mỗi ngày á?!','😳'],[T,'Mỗi ngày, cho tới khi mình già.','😆']],v:3},{t:'Gửi sticker chiếc cặp chéo, kèm “nhớ anh quá”',r:[[H,'Em trêu mà làm anh nhớ em muốn chết.','🥹']],v:3}]},
+{c:cIII,b:0,w:T,l:[[N,'Ở bên kia, Heo ngồi đỏ mặt trước màn hình.'],[T,'Anh chưa biết hôn đúng không? Về VN em dạy cho nhé, cậu bé ngây thơ.','😏']],q:'Thỏ…',o:[{t:'“Em sẽ dạy từng bước, từ nhẹ nhàng thôi.”',r:[[H,'Ngừng lại ngay! Anh đỏ mặt tới tận tai rồi!','🙈']],v:3},{t:'Thì thầm: “Anh học nhanh lắm, đừng lo.”',r:[[H,'Em nói vậy anh càng hồi hộp.','😳']],v:3}]},
+{c:cIII,b:0,w:H,l:[[N,'Cứ tối thứ Bảy hoặc Chủ nhật là hai đứa hẹn nhau: mười giờ đêm, gọi điện.'],[N,'Heo pha cốc trà nóng, đeo tai nghe, tim đập nhanh như lần đầu.'],[T,'Anh Heo, em lên sóng rồi nè!','😆']],q:'Câu chuyện đầu tiên của đêm nay…',o:[{t:'Kể về một ngày ở xưởng bên Trung Quốc',r:[[T,'Nghe anh kể, em như được đi cùng anh vậy.','🥰']],v:2},{t:'Hỏi Thỏ hôm nay ở trường có gì vui',r:[[T,'Có chứ! Để em kể từ đầu nhé…','😆']],v:3}]},
+{c:cIII,b:0,w:T,l:[[N,'Một giờ sáng. Hai đứa đã kể hết chuyện gia đình, bạn bè, rồi chuyển sang những điều chưa từng kể ai.']],q:'Thỏ thủ thỉ…',o:[{t:'Kể ước mơ trở thành một cô giáo thật tốt',r:[[H,'Em sẽ là cô giáo tuyệt nhất, anh tin.','🥹']],v:3},{t:'Kể nỗi sợ bị bỏ lại một mình',r:[[H,'Anh sẽ không bỏ em đâu. Hứa đó.','🥹']],v:3}]},
+{c:cIII,b:0,w:H,l:[[N,'Bốn giờ sáng. Ánh bình minh đầu tiên lọt qua cửa sổ, hai đứa vẫn chưa buồn ngủ.'],[T,'Anh ơi, trời sáng rồi kìa…','🥺']],q:'Heo…',o:[{t:'Hát nhỏ cho Thỏ nghe, dù hát hơi lạc tông',r:[[T,'Anh hát dở thật, nhưng em muốn nghe thêm.','🥰']],v:3,m:'star'},{t:'Hẹn: “Tối mai mình gọi tiếp nhé.”',r:[[T,'Hẹn rồi đó. Em đếm từng giờ.','💞']],v:3,m:'star'}]});
+S.splice(S.indexOf(NW[1])+1,0,{c:'V. Những đêm làm việc',b:12,w:H,l:[[N,'Hồi đó Heo làm việc cật lực, toàn về muộn, mười hai giờ, một giờ sáng mới rời xưởng.'],[N,'Người mệt rã rời, nhưng chỉ cần nghĩ tới Thỏ là đôi chân tự biết rẽ về hướng nhà em.']],q:'Heo nghĩ…',o:[{t:'“Chỉ cần ôm em một cái là đủ sức.”',r:[[N,'Chiếc xe chạy giữa đêm, đèn đường vàng trải dài như một lời hứa hẹn.']],v:3},{t:'“Khuya thế này, lỡ em ngủ rồi thì sao?”',r:[[N,'Heo lưỡng lự, rồi vẫn bấm gọi: “Em ra cổng được không?”']],v:2}]});
+S.splice(S.indexOf(NW[2])+1,0,
+{c:'V. Những đêm làm việc',b:0,w:H,l:[[N,'Dưới ánh đèn đường vàng, ngoài cổng nhà Thỏ chỉ có hai bóng người thật nhỏ.'],[T,'Anh khẽ thôi, ba mẹ em ngủ rồi!','😳']],q:'Heo…',o:[{t:'Ôm Thỏ thật chặt, vùi mặt vào tóc em',r:[[T,'Anh mệt lắm hả?'],[H,'Mệt, nhưng giờ hết rồi.','🥰']],v:3,m:'hug'},{t:'Hôn trộm Thỏ một cái thật nhanh, rồi cả hai cười khúc khích',r:[[T,'Mất trật tự quá!','😆'],[H,'Hồi hộp thế này em không thích sao?','😏']],v:3,m:'kiss'}]},
+{c:'V. Những đêm làm việc',b:0,w:T,l:[[N,'Cả hai cứ chia tay rồi lại quay lại, mỗi lần một cái hôn, một cái ôm, như thể chẳng ai muốn là người quay đi trước.']],q:'Thỏ…',o:[{t:'Kéo áo Heo: “Một cái nữa rồi mới được về.”',r:[[H,'Anh nhớ rồi nhé. Giờ anh về ngủ ngon được rồi.','🥰']],v:3,m:'kiss'},{t:'Đứng nhìn theo đèn xe đến khi mất hẳn',r:[[H,'(nhắn) Anh về tới rồi. Ngủ ngon, Thỏ của anh.','💞']],v:3}]});
+const D=(c,b,w,l,q,o)=>({c,b,w,l,q,o});
+S.splice(S.indexOf(O[0])+1,0,
+D(cI,0,H,[[N,'Sáng hôm sau, Heo ra ga để đi tàu điện sang Trung Quốc. Giữa lúc ngồi chờ tàu, điện thoại rung lên: “Thỏ đã chấp nhận lời mời kết bạn của bạn.”'],[N,'Tim Heo hẫng đi một nhịp.']],'Heo…',[{t:'Nhắn ngay: “Chào em, anh là Heo.”',r:[[T,'Chào anh. Anh đi đâu mà sớm vậy?','😊']],v:3},{t:'Nhìn màn hình cả buổi, không dám nhắn',r:[[N,'Tàu lăn bánh. Lời chào chưa gửi ấy nằm trong lòng Heo suốt chuyến tàu.']],v:1}]),
+D(cI,2,H,[[N,'Tối đầu tiên ở Trung Quốc, Heo ra phố ăn cơm một mình. Phố xá lạ lẫm, đèn lồng đỏ rực.'],[N,'Cậu chụp một tấm ảnh bữa tối, đăng lên story, rồi hồi hộp chờ xem có ai xem không.']],'Heo đăng…',[{t:'Ảnh bữa tối nghi ngút khói',r:[[N,'Lượt xem nhảy lên. Trong danh sách có một cái tên khiến Heo khựng lại.']],v:2},{t:'Ảnh bầu trời Trung Quốc lúc hoàng hôn',r:[[N,'Một thông báo hiện lên: Thỏ đang gõ tin nhắn trả lời story…']],v:3}]));
+S.splice(S.indexOf(O[1])+1,0,
+D(cI,0,T,[[N,'Từ ngày đó, hai đứa nhắn tin không dứt: từ chuyện gia đình, bạn bè, đến cả lí tưởng sống.'],[N,'Có hôm đã mười hai giờ đêm mà chưa ai muốn nói “ngủ ngon”.']],'Thỏ hỏi Heo…',[{t:'“Lí tưởng sống của anh là gì?”',r:[[H,'Là làm việc thật tốt để lo cho người mình thương.','🥹'],[T,'Người đó là ai thế?','😏']],v:3},{t:'“Anh nhớ nhà không?”',r:[[H,'Nhớ… nhưng có em nhắn tin thì đỡ nhớ hơn.','🥰']],v:3}]),
+D(cI,0,H,[[N,'Một tối, Thỏ gửi link xem tướng số: “Mình xem hợp nhau không nhé!”'],[N,'Hai đứa nhập ngày sinh, hồi hộp chờ kết quả như chờ điểm thi.']],'Kết quả hiện ra, Heo…',[{t:'Reo lên: “Hợp tới 99%!”',r:[[T,'Anh nhập ngày sinh sai rồi đúng không?','😆']],v:3},{t:'Giả vờ thản nhiên: “Cũng… tạm được.”',r:[[T,'Tạm được mà anh gõ chữ nhanh như vậy?','😏']],v:2}]),
+D(cI,2,H,[[N,'Heo hay gửi cho Thỏ những khoảnh khắc ở Trung Quốc: tuyết đầu mùa, quán mì nóng hổi, con phố đèn đỏ.'],[T,'Em chưa đi nước ngoài bao giờ… nghe anh kể mà thích quá.','🥺']],'Heo…',[{t:'“Sau này anh đưa em đi cùng.”',r:[[T,'Hứa nhé!','🥹']],v:3},{t:'Gửi tấm ảnh phố: “Chỗ này em sẽ thích.”',r:[[T,'Anh nhớ em thích gì sao?','😊']],v:3}]),
+D(cI,0,H,[[N,'Mấy ông anh đồng nghiệp nhanh chóng nhận ra Heo hay cười một mình bên điện thoại.'],[N,'Thế là các “chiến thuật sư” họp bàn cách giúp Heo tán Thỏ.']],'Heo…',[{t:'Làm theo chiến thuật của các anh',r:[[T,'Hôm nay anh nói chuyện khác ghê!','😏'],[H,'Anh… đang thực hành.','🙈']],v:2},{t:'Tự nhiên nhất, nói bằng cả trái tim',r:[[T,'Em thích kiểu này hơn.','🥰']],v:3}]));
+S.splice(S.indexOf(O[16]),0,
+D(cVI,4,T,[[N,'Valentine đầu tiên của hai đứa. Thỏ bí mật chuẩn bị suốt mấy ngày, không cho Heo biết.'],[N,'Trong bếp, mùi socola ngọt lan khắp nhà. Nồi socola đầu tiên khét lẹt.']],'Thỏ…',[{t:'Làm lại từ đầu, kiên nhẫn từng chút một',r:[[N,'Lần thứ ba, thỏi socola cuối cùng cũng bóng mịn.']],v:3},{t:'Cười khúc khích, ăn thử nồi socola khét',r:[[N,'Đắng nghét. Nhưng nghĩ đến mặt Heo, Thỏ vẫn mỉm cười.']],v:2}]),
+D(cVI,4,T,[[N,'Đêm khuya, Thỏ ngồi tỉ mẩn làm từng cánh hoa. Ngón tay mỏi nhừ, nhưng em chẳng muốn dừng.']],'Thỏ viết vào tấm thiệp…',[{t:'“Cảm ơn anh vì đã đến bên em.”',r:[[N,'Thỏ chấm dấu cuối câu, mỉm cười, giấu tấm thiệp dưới đóa hoa.']],v:3},{t:'“Em thích anh nhiều hơn anh nghĩ đó.”',r:[[N,'Em đỏ mặt, gấp tấm thiệp lại thật nhanh.']],v:3}]));
+S.splice(S.indexOf(O[16])+1,0,D(cVI,4,H,[[N,'Heo cầm hộp quà trên tay, thấy từng món là cả một tấm lòng: socola em tự làm, đóa hoa em tự làm, tấm thiệp nắn nót chữ em.']],'Heo mở quà, và…',[{t:'Ngồi lặng im, mắt đỏ hoe',r:[[T,'Anh sao vậy? Em làm xấu hả?','🥺'],[H,'Không… đẹp nhất trên đời luôn.','🥹']],v:4},{t:'Ăn thử socola rồi reo lên: “Ngon hơn mọi hộp quà ngoài tiệm!”',r:[[T,'Anh lại nói quá lên rồi!','😆']],v:3}]));
+S.splice(S.indexOf(O[17])+1,0,D(cVI,8,T,[[N,'Tối Valentine, hai đứa ngồi bên nhau thật lâu. Heo siết tay Thỏ: “Từ giây phút này, anh đã yêu em mê mệt rồi.”']],'Thỏ…',[{t:'“Em cũng vậy. Em chỉ sợ nói ra thì ngại.”',r:[[H,'Em cứ ngại, anh nghe là đủ.','🥰']],v:3,m:'hug'},{t:'Hôn nhẹ lên má Heo: “Valentine vui nhé.”',r:[[H,'Valentine vui nhất đời anh.','💞']],v:3,m:'kiss'}]));
+S.splice(S.indexOf(O[32]),1);
+S.splice(S.indexOf(O[18]),0,
+D(cVII,9,H,[[N,'Tết đầu tiên của hai đứa. Gần như ngày nào cũng có lí do để rủ nhau đi chơi.']],'Heo…',[{t:'Nhắn Thỏ mỗi sáng: “Hôm nay mình đi đâu nhé?”',r:[[T,'Anh còn chưa chán em à?','😆'],[H,'Anh chán gì cũng không chán em.','🥰']],v:3},{t:'Tự lên kế hoạch cả tuần, đưa Thỏ xem',r:[[T,'Heo tổ chức kĩ ghê!','🥹']],v:3}]),
+O[32],
+D(cVII,9,T,[[N,'Mùng đầu năm, hai đứa cùng đi chùa. Khói hương lượn nhẹ, tiếng chuông ngân xa.']],'Thỏ chắp tay cầu…',[{t:'Cầu cho hai đứa mạnh khỏe và bình an',r:[[H,'Anh cũng cầu y chang vậy.','🥰']],v:3},{t:'Lén cầu: “Mong mình ở bên nhau thật lâu.”',r:[[H,'Em thì thầm gì thế?','😏'],[T,'Bí mật!','🙈']],v:3}]),
+D(cVII,9,H,[[N,'Hôm sau, Heo đưa Thỏ tới nhà chị mình ăn hội. Cả nhà rôm rả, ai cũng nhìn Thỏ cười.'],[T,'Em hơi ngại… họ nhìn em hoài.','😳']],'Heo…',[{t:'Nắm tay Thỏ dưới bàn: “Có anh ở đây.”',r:[[T,'Ừ. Em bớt run rồi.','🥹']],v:3},{t:'Giới thiệu to: “Đây là Thỏ, người yêu của em!”',r:[[T,'Heo!! Nhỏ thôi!','🙈'],[N,'Cả nhà vỗ tay cười. Má Thỏ ửng hồng.']],v:3}]),
+D(cVII,9,T,[[N,'Rồi cả hai cùng đi hội Cổ Loa: cờ hội bay rợp trời, trống hội rộn ràng, mùi bánh nếp thơm khắp lối.']],'Thỏ…',[{t:'Kéo Heo chen vào chơi trò dân gian',r:[[H,'Em chơi giỏi thế này anh thua chắc rồi!','😆']],v:3},{t:'Mua hai chiếc bánh, đút cho Heo ăn trước',r:[[H,'Ngọt thật. Ngọt vì em đút.','🥰']],v:3}]));
+S.splice(S.indexOf(O[18])+1,0,
+D(cVII,0,H,[[N,'Tết năm ấy, Heo nằm ở nhà, hai đứa không đi chơi mà gọi video cho nhau. Heo mở stream một show truyền hình tâm linh của Hàn Quốc, nơi các pháp sư thi đấu với nhau. Đèn tắt, nhạc rợn người vang lên.'],[T,'Anh ơi, em sợ… anh đừng buông tay em nhé.','😱']],'Heo…',[{t:'Nói qua màn hình: “Anh ở đây, em đừng sợ.”',r:[[T,'(kéo chăn lên tận cằm) Anh sợ không?'],[H,'(run run) Anh… không sợ.','😳']],v:3,m:'scare'},{t:'Hù Thỏ thật to đúng lúc pháp sư làm phép',r:[[T,'Anh làm gì vậy! Em giật mình rớt cả điện thoại!','😆']],v:3,m:'scare'}]),
+D(cVII,8,T,[[N,'Tập phim kết thúc, các pháp sư đã phân thắng bại, nhưng hai đứa vẫn nằm đó, màn hình điện thoại kê bên gối. Đó là cuộc nói chuyện dài nhất của cả hai.'],[N,'Về pháp sư nào đáng tin nhất, về những điều không giải thích được, và về việc vì sao hai đứa lại gặp nhau.']],'Thỏ nói…',[{t:'“Có khi nào mình đã gặp nhau từ kiếp trước?”',r:[[H,'Nếu vậy thì kiếp này anh phải tìm em sớm hơn mới đúng.','🥹']],v:4,m:'star'},{t:'“Em không tin ma quỷ, nhưng tin duyên.”',r:[[H,'Anh cũng thế. Duyên của mình tốt thật.','🥰']],v:3,m:'star'}]));
+let AN=[];const spr=id=>$(id).querySelector('.sp'),PC=e=>parseFloat($(e).style.left)||50;
+function ring(x,y,e,n){for(let k=0;k<n;k++){const m=document.createElement('span');m.className='hr';m.textContent=e;m.style.cssText=`left:${x}%;bottom:calc(24% + ${y}px);animation:none;font-size:24px;z-index:6`;$('cam').append(m);const a=k/n*6.28,d=70+rnd(0,40);m.animate([{transform:'translate(0,0) scale(.3)',opacity:1},{transform:`translate(${Math.cos(a)*d}px,${-Math.abs(Math.sin(a))*d-20}px) scale(1.3)`,opacity:0}],{duration:1600,easing:'ease-out'});setTimeout(()=>m.remove(),1700)}}
+function act(k){AN.forEach(a=>a.cancel());AN=[];const u=$('umb');if(u)u.remove();const Hh=$('heo'),Tt=$('tho');
+ [Hh,Tt].forEach(e=>{e.classList.remove('walk2');e.style.transition='';e.style.opacity=''});$('link').style.transition='';
+ if(!k){place();return}
+ if(k=='walk'){[Hh,Tt].forEach((e,i)=>{e.style.transition='none';e.style.left=(i?22:10)+'%'});$('link').style.transition='none';$('link').style.left='10%';$('link').style.width='12%';app.offsetWidth;
+  [Hh,Tt].forEach((e,i)=>{e.style.transition='left 6s linear';e.style.left=(i?86:74)+'%';e.classList.add('walk2')});$('link').style.transition='left 6s linear';$('link').style.left='74%';
+  AN.push($('props').animate([{transform:'translateX(0)'},{transform:'translateX(-90px)'}],{duration:6000,fill:'forwards'}));
+  const t=setTimeout(()=>{[Hh,Tt].forEach(e=>e.classList.remove('walk2'));act()},6300);AN.push({cancel:()=>clearTimeout(t)})}
+ if(k=='ride'){[Hh,Tt].forEach(e=>e.style.opacity=0);$('link').style.width='0';const r=document.createElement('div');r.className='rd';r.innerHTML='<i>🏍️🐷🐰</i>';$('zoom').append(r);r.animate([{left:'-35%'},{left:'112%'}],{duration:6500,easing:'ease-in-out'});
+  const iv=setInterval(()=>{const h=document.createElement('span');h.className='em';h.textContent='💗';h.style.cssText='left:'+rnd(15,85)+'%;bottom:calc(24% + 110px);font-size:22px';$('cam').append(h);setTimeout(()=>h.remove(),1700)},600);
+  const t=setTimeout(()=>{r.remove();clearInterval(iv);act()},6700);AN.push({cancel:()=>{clearTimeout(t);clearInterval(iv);r.remove()}})}
+ if(k=='bench'){Hh.style.left='46%';Tt.style.left='54%';$('link').style.width='0';
+  AN.push(spr('tho').animate([{translate:'0 0',rotate:'0deg'},{translate:'-22px 6px',rotate:'-12deg'}],{duration:2500,fill:'forwards',easing:'ease-in-out'}),spr('heo').animate([{rotate:'0deg'},{rotate:'8deg'}],{duration:2500,fill:'forwards'}));
+  const iv=setInterval(()=>ring(50,100,'💗',3),2500);AN.push({cancel:()=>clearInterval(iv)})}
+ if(k=='call'){const iv=setInterval(()=>{const m=document.createElement('span');m.className='em';m.textContent='💗';m.style.cssText='left:'+PC('heo')+'%;bottom:calc(24% + 60px);animation:none;font-size:22px';$('cam').append(m);m.animate([{left:PC('heo')+'%'},{left:PC('tho')+'%'}],{duration:2200,easing:'ease-in-out'});setTimeout(()=>m.remove(),2200)},700);AN.push({cancel:()=>clearInterval(iv)})}
+ if(k=='dance'){Hh.style.left='44%';Tt.style.left='56%';$('link').style.width='0';const o=q=>[{transform:'translate(0,0)'},{transform:`translate(${q*50}px,-26px)`},{transform:'translate(0,-40px)'},{transform:`translate(${-q*50}px,-26px)`},{transform:'translate(0,0)'}],d={duration:4000,iterations:4,easing:'ease-in-out'};
+  AN.push(Hh.animate(o(1),d),Tt.animate(o(-1),d),spr('heo').animate([{rotate:'0deg'},{rotate:'360deg'}],{duration:4000,iterations:4}),spr('tho').animate([{rotate:'0deg'},{rotate:'-360deg'}],{duration:4000,iterations:4}));
+  const iv=setInterval(()=>emo(N,Math.random()<.5?'♪':'♫'),500);AN.push({cancel:()=>clearInterval(iv)})}
+ if(k=='meet'){[Hh,Tt].forEach((e,i)=>{e.style.transition='none';e.style.left=i?'112%':'-14%'});app.offsetWidth;[Hh,Tt].forEach((e,i)=>{e.style.transition='left 3.2s ease-out';e.style.left=i?'55%':'45%';e.classList.add('walk2')});$('link').style.width='0';const t=setTimeout(()=>{[Hh,Tt].forEach(e=>e.classList.remove('walk2'));ring(50,80,'💞',8);[spr('heo'),spr('tho')].forEach(e=>e.animate([{scale:1},{scale:1.2},{scale:1}],{duration:900}))},3300);AN.push({cancel:()=>clearTimeout(t)})}
+ if(k=='chase'){$('link').style.width='0';const d={duration:1800,iterations:5,easing:'ease-in-out'},kf=[{transform:'translateX(0)'},{transform:'translateX(110px)'},{transform:'translateX(0)'}];AN.push(Hh.animate(kf,d),Tt.animate(kf,{...d,delay:350}));const iv=setInterval(()=>emo(T,'😆'),2200);AN.push({cancel:()=>clearInterval(iv)})}
+ if(k=='apart'){Hh.style.left='16%';Tt.style.left='84%';$('link').style.width='0';AN.push(spr('heo').animate([{rotate:'0deg',scale:1},{rotate:'-9deg',scale:.92}],{duration:1800,fill:'forwards'}),spr('tho').animate([{rotate:'0deg',scale:1},{rotate:'9deg',scale:.92}],{duration:1800,fill:'forwards'}));const iv=setInterval(()=>{emo(H,'💧');emo(T,'💧')},1500);AN.push({cancel:()=>clearInterval(iv)})}
+ if(k=='alone'){Hh.style.left='46%';Tt.style.opacity=.12;$('link').style.width='0';AN.push(spr('heo').animate([{translate:'0 0'},{translate:'0 8px'}],{duration:2500,fill:'forwards'}));const iv=setInterval(()=>emo(H,'💭'),2200);AN.push({cancel:()=>clearInterval(iv)})}
+ if(k=='gift'){[Hh,Tt].forEach((e,i)=>{e.style.transition='none';e.style.left=i?'70%':'12%'});app.offsetWidth;Hh.style.transition='left 3s ease-in-out';Hh.style.left='56%';Hh.classList.add('walk2');$('link').style.width='0';const t=setTimeout(()=>{Hh.classList.remove('walk2');emo(H,'🎁');AN.push(spr('tho').animate([{translate:'0 0'},{translate:'0 -30px'},{translate:'0 0'},{translate:'0 -22px'},{translate:'0 0'}],{duration:1400}));ring(62,90,'💗',8)},3100);AN.push({cancel:()=>clearTimeout(t)})}
+ if(k=='laugh'){Hh.style.left='28%';$('link').style.width='0';const iv=setInterval(()=>{spr('ban').animate([{rotate:'0deg'},{rotate:'-10deg'},{rotate:'10deg'},{rotate:'0deg'}],{duration:500});emo(BN,'😂')},1800);AN.push({cancel:()=>clearInterval(iv)})}
+ if(k=='feed'||k=='tickle'||k=='selfie'||k=='piggy'){Hh.style.left='44%';Tt.style.left='56%';$('link').style.width='0';
+  if(k=='feed'){const iv=setInterval(()=>{const m=document.createElement('span');m.className='em';m.textContent=['🍟','🍗','🧋'][Math.floor(rnd(0,3))];m.style.cssText='left:56%;bottom:calc(24% + 70px);animation:none;font-size:26px';$('cam').append(m);m.animate([{left:'56%',transform:'translateY(0)'},{left:'50%',transform:'translateY(-70px)'},{left:'44%',transform:'translateY(0)'}],{duration:1400});setTimeout(()=>m.remove(),1400);setTimeout(()=>emo(H,'😋'),1300)},2200);AN.push({cancel:()=>clearInterval(iv)})}
+  if(k=='tickle'){const d={duration:260,iterations:30};AN.push(spr('heo').animate([{rotate:'-12deg'},{rotate:'12deg'}],{...d,direction:'alternate'}),spr('tho').animate([{rotate:'12deg'},{rotate:'-12deg'}],{...d,direction:'alternate'}));const iv=setInterval(()=>{emo(H,'😂');emo(T,'🤣')},1100);AN.push({cancel:()=>clearInterval(iv)})}
+  if(k=='selfie'){const sh=()=>{const f=$('flash');f.classList.remove('go');f.offsetWidth;f.classList.add('go');ring(50,100,'📸',3)},iv=setInterval(sh,2800);setTimeout(sh,500);AN.push({cancel:()=>clearInterval(iv)})}
+  if(k=='piggy'){Hh.style.left='48%';Tt.style.left='49%';Hh.classList.add('walk2');AN.push(spr('tho').animate([{translate:'0 0'},{translate:'-4px -58px'}],{duration:900,fill:'forwards'}));const iv=setInterval(()=>emo(T,'😆'),1500);AN.push({cancel:()=>clearInterval(iv)})}}
+ if(k=='card'){const c=document.createElement('div');c.id='cd';c.innerHTML='<div class="cp"><b>💌</b><p id="ct"></p><small>🌸</small></div>';$('cam').append(c);const t='Có 1 chàng trai đang ở bên Trung Quốc rất nhớ em.';let n=0;const iv=setInterval(()=>{const e=$('ct');if(e)e.textContent=t.slice(0,++n);if(n>=t.length)clearInterval(iv)},60),sp2=setInterval(()=>ring(50,200,'💗',3),3000);ring(50,200,'✨',10);AN.push({cancel:()=>{clearInterval(iv);clearInterval(sp2);c.remove()}})}
+ if(k=='umb'){Hh.style.left='46%';Tt.style.left='54%';$('link').style.width='0';const u=document.createElement('span');u.id='umb';u.textContent='🌂';u.style.left='calc(50% - 60px)';$('zoom').append(u)}}
+const AT=(sub,a)=>S.forEach(s=>{if(s.l[0][1].includes(sub))s.a=a});
+[['Thỏ ngồi sau xe','ride'],['Trời nhá nhem. Heo chở','ride'],['Buổi hẹn đầu tiên với tư cách người yêu','walk'],['hội Cổ Loa: cờ hội','walk'],['kéo nhau lên Lotte','walk'],['Hết phim thì đi dạo','bench'],['Cứ tối thứ Bảy','call'],['Một giờ sáng','call'],['Bốn giờ sáng','call'],['hai đứa nhắn tin không dứt','call'],['Tiếng gõ cửa vang lên','umb'],['ngồi ở đúng chiếc ghế đá','bench'],['Tối Valentine','bench'],['Đi chùa, ăn hội','dance'],['Trong taxi','bench'],['Thỏ mở món quà nhỏ','bench'],['Ra khỏi phòng chiếu','bench'],['Tập phim kết thúc','call'],['Hôm gặp nhau, hai đứa chẳng nói','meet'],['Đêm Trung thu. Heo mua sẵn','alone'],['Mười giờ đêm. Phố','alone']].forEach(([a,b])=>AT(a,b));
+S.forEach(s=>{if(!s.a)s.a=s.hl?'apart':({I:'call',II:'meet',III:'call',IV:'walk',V:'meet',VI:'gift',VII:'walk',VIII:'chase',X:'chase'}[s.c.split('.')[0]]||'bench')});
+const BN='ban';
+SC[13]={sky:'#1a1030,#4a2a5a',fx:'star',g:'#241638',p:[['🍻','12%','46%',40,'bob'],['🏮','86%','16%',34,'bob'],['🌃','40%','8%',70,'']]};
+S.splice(S.indexOf(O[0]),1,
+{c:cI,b:13,ban:1,a:'laugh',w:H,l:[[N,'Tối trước hôm sang Trung Quốc, Heo ngồi uống nước với lũ bạn ở quán quen.'],[BN,'Ê, tao vừa gửi kết bạn cho một em, em đồng ý luôn rồi nè!','😎'],[BN,'Giờ mạng xã hội dễ thật, cứ gửi là được!','😆']],q:'Heo…',o:[{t:'“Xạo, làm gì có chuyện dễ vậy.”',r:[[BN,'Không tin thì xem tin nhắn này nè!','😂']],v:2},{t:'“Cho tao xem nick nào đấy?”',r:[[BN,'Mày cũng định thử à? Nhanh thế!','😏']],v:2}]},
+{c:cI,b:13,ban:1,a:'laugh',w:H,l:[[N,'Heo lướt Facebook, mắt dừng lại ở mục gợi ý kết bạn: một cô gái rất xinh, nụ cười như nắng sớm.'],[BN,'Ơ! Mặt mày đỏ kìa! Đưa tao xem nào!','😂']],q:'Heo…',o:[{t:'Úp điện thoại xuống bàn: “Không có gì!”',r:[[BN,'Có gì mới giấu! Thằng này có tình hình rồi!','🤭']],v:2},{t:'Đưa điện thoại cho lũ bạn xem',r:[[BN,'Em này xinh thế! Mày dám gửi không?','😏']],v:3}]},
+{c:cI,b:13,ban:1,a:'laugh',w:H,l:[[BN,'Gửi đi! Gửi đi! Sợ gì!','😆'],[N,'Cả bàn cùng hò reo. Ngón tay Heo lơ lửng trên nút “Thêm bạn bè”.']],q:'Heo…',o:[{t:'Hít một hơi, liều bấm gửi',r:[[N,'Đã gửi. Tim Heo đập thình thịch.'],[BN,'Chúc mừng mày… chuẩn bị bị từ chối nhé!','😂']],v:3},{t:'Do dự, bạn giằng điện thoại định bấm giùm',r:[[H,'Ê! Để tao tự bấm!','😳'],[N,'Rồi Heo cũng bấm. Một giây sau, cả bàn vỗ tay như vừa thắng giải.']],v:2}]},
+{c:cI,b:13,ban:1,a:'laugh',w:H,l:[[BN,'Cược nhé: nếu em ấy approve, tao bao mày cả tuần trà sữa!','😎'],[BN,'Còn không thì mày bao tụi tao!','😂']],q:'Heo cược không?',o:[{t:'“Cược! Mày chuẩn bị ví đi.”',r:[[BN,'Tự tin ghê chưa!','🤣']],v:2},{t:'“Thôi, chắc chắn bị từ chối mà.”',r:[[BN,'Nhìn mặt mày là biết mong lắm rồi!','😏']],v:2}]},
+{c:cI,b:0,a:'alone',w:H,l:[[N,'Về đến nhà, Heo thu dọn hành lý cho chuyến đi sáng mai, mắt vẫn liếc điện thoại.'],[N,'Dù đã tự nhủ: không hy vọng đâu, người ta chẳng approve đâu.']],q:'Heo…',o:[{t:'Úp điện thoại xuống, cố đi ngủ',r:[[N,'Nhưng giấc ngủ chẳng đến. Trong đầu Heo cứ hiện lên nụ cười kia.']],v:2},{t:'Cứ mở ra xem mỗi năm phút',r:[[N,'Chưa có gì cả. Rồi Heo thiếp đi lúc nào chẳng hay, điện thoại vẫn sáng trên gối.']],v:2}]});
+const Vc=cVIII,Tn=(o)=>Object.assign({c:Vc,hl:1,md:'tense',b:6},o);
+S.splice(S.indexOf(O[29])+1,0,
+{c:Vc,b:4,w:T,l:[[N,'Thỏ học sư phạm, giỏi giao tiếp, chơi với ai cũng hợp. Nhưng sâu trong lòng, em hay tự ti.'],[N,'Hai đứa bạn thân của Thỏ toàn rủ nhau học chung, làm nhóm chung, còn Thỏ thì thành người đứng ngoài.']],q:'Thỏ…',o:[{t:'Nuốt tủi vào trong, cười như không có gì',r:[[N,'Về phòng, Thỏ nhìn trần nhà thật lâu, rồi cầm điện thoại lên.']],v:1},{t:'Nhắn ngay cho Heo: “Heo ơi, em tủi quá…”',r:[[H,'Ỏooooo, ai làm Thỏ của anh buồn thế? Kể anh nghe nào.','🥺']],v:3}]},
+{c:Vc,b:6,w:H,l:[[T,'Hôm nay hai bạn ấy lại rủ nhau làm nhóm, không rủ em… em đứng đó như người thừa.','😢'],[N,'Đầu dây bên kia, Thỏ nói mà giọng nghẹn lại.']],q:'Heo…',o:[{t:'“Với anh, em không bao giờ là người thừa. Em là cả thế giới.”',r:[[T,'Ỏooooo… anh nói vậy em lại muốn khóc nữa.','🥹']],v:4},{t:'“Mai anh qua đón em đi ăn, mình đi chơi riêng nhé!”',r:[[T,'Thật hả? Heo là nhất luôn á!','😊']],v:3}]},
+{c:Vc,b:4,a:'feed',w:H,l:[[N,'Heo hay đặt trà sữa ship tận nơi cho Thỏ. Có hôm cậu đặt hẳn năm ly, để Thỏ chia cho cả bạn bè cùng uống.'],[T,'Heo ơi, sao anh đặt nhiều thế? Em ngại lắm á!','🙈']],q:'Heo…',o:[{t:'“Em chia cho bạn đi, bạn vui thì em cũng vui.”',r:[[T,'Ỏooooo, bạn trai em tâm lý quá đi~','🥰']],v:3},{t:'“Một ly này anh ghi riêng: Cho Thỏ của anh.”',r:[[T,'Ỏooooo… em giấu ly này uống một mình.','😳']],v:3}]},
+{c:Vc,b:4,w:T,l:[[N,'Nhờ những ly trà sữa ấy, các bạn trong lớp bắt đầu hỏi han Thỏ nhiều hơn.'],[N,'“Bạn trai cậu tâm lí thế! Cậu hạnh phúc thật đấy.”']],q:'Thỏ…',o:[{t:'Nói với hai bạn thân: “Mình cũng muốn được rủ làm nhóm với các cậu.”',r:[[N,'Hai bạn ngỡ ngàng, rồi ôm Thỏ: “Bọn tớ xin lỗi, tại tưởng cậu bận.”']],v:4,f:'friends'},{t:'Mỉm cười, kể về Heo cho các bạn nghe cả buổi',r:[[N,'Thỏ chợt nhận ra mình chẳng cô đơn như tưởng. Có người luôn nghĩ về em.']],v:3}]},
+Tn({w:T,l:[[N,'Một buổi tối, Heo đi tắm, điện thoại đặt trên bàn bật sáng.'],[N,'Một tin nhắn từ cái tên “Linh – đồng nghiệp”: “Cảm ơn anh vì hôm qua. Mai mình gặp riêng nhé?”'],[N,'Tim Thỏ hẫng đi một nhịp.']],q:'Thỏ…',o:[{t:'Chờ Heo ra, hỏi thẳng: “Linh là ai vậy?”',r:[[H,'Hả? Ờ… Linh là đồng nghiệp… em đọc tin nhắn hả?','😳']],v:3,f:'ask'},{t:'Đặt điện thoại lại chỗ cũ, nuốt cảm xúc vào trong',r:[[N,'Cả buổi tối Thỏ chẳng nói gì. Chỉ có tiếng tim đập ầm ầm trong lồng ngực.']],v:0,f:'silent'}]}),
+Tn({if:'silent',w:H,l:[[N,'Mấy ngày sau, Thỏ nhắn ít dần. Câu trả lời chỉ còn “ừ”, “vâng”, “bận”.'],[N,'Heo cảm nhận sự lạnh đi, nhưng không hiểu vì sao.']],q:'Heo…',o:[{t:'Nhắn thẳng: “Em có chuyện gì giấu anh không?”',r:[[T,'…Linh là ai vậy anh?','😢'],[H,'Linh? Trời ơi, đồng nghiệp thôi mà!','😳']],v:3,f:'ask'},{t:'Cũng im, tự nhủ có lẽ em bận',r:[[N,'Hai người cùng im lặng, và khoảng cách giữa họ rộng ra từng ngày.']],v:0}]}),
+Tn({if:'ask',b:3,hl:0,w:T,l:[[H,'Linh là đồng nghiệp nhờ anh chuyển tài liệu cho phòng bên. Gặp riêng là gặp để đưa file, em tin anh nha.','🥺'],[N,'Heo mở điện thoại đưa Thỏ xem hết, không giấu gì cả.']],q:'Thỏ…',o:[{t:'Bật cười: “Ỏooooo, em ghen đó, anh chịu đi.”',r:[[H,'Anh chịu! Cả đời chịu luôn!','🥰']],v:4,f:'trust',m:'hug'},{t:'Vẫn chưa yên, nhưng gật đầu: “Lần sau cứ nói trước với em.”',r:[[H,'Ừ, từ giờ chuyện gì anh cũng nói với em.','🥹']],v:3,f:'trust'}]}),
+Tn({if:'!ask',w:T,l:[[N,'Một tuần trôi qua. Hai người vẫn nhắn đủ để nhắc nhau còn tồn tại, nhưng không còn tiếng cười.'],[N,'Mỗi người đều mong người kia là người nói trước.']],q:'Thỏ…',o:[{t:'Gọi cho Heo: “Mình nói chuyện nhé, em nhớ anh.”',r:[[H,'Anh cũng muốn nói. Anh nhớ em lắm.','🥹']],v:3,f:'trust'},{t:'Vẫn im, vì sợ nghe câu trả lời mình không muốn',r:[[N,'Có những khoảng lặng chẳng ai cố ý tạo ra, nhưng cuối cùng lại giết chết cả một tình yêu.']],v:0}]}));
+S.splice(S.findIndex(x=>x.q==='Thỏ gửi cho Heo…')+1,0,
+{c:cX,b:7,w:T,l:[[N,'Thỏ đi dạy gia sư tiếng Anh. Cậu học trò nhỏ ngước đôi mắt tròn xoe.'],[N,'“Cô ơi, cô có người yêu chưa ạ?”']],q:'Thỏ trả lời…',o:[{t:'“Có rồi, anh ấy tên Heo, hay làm cô đỏ mặt!”',r:[[N,'Cả lớp cười ầm. Tối đó Thỏ kể lại, Heo cười đến đỏ cả tai.']],v:3},{t:'“Học bài đi con, hỏi nhiều quá!”',r:[[N,'Cậu bé le lưỡi. Nhưng tối ấy Thỏ vẫn mỉm cười một mình.']],v:2}]},
+{c:cX,b:6,w:H,l:[[N,'Một hôm Heo sốt cao, nằm co ro một mình trong phòng.'],[T,'Anh ơi, em tới rồi! Em nấu cháo cho anh nè.','🥺']],q:'Heo…',o:[{t:'“Em đừng lại gần, anh sợ lây cho em…”',r:[[T,'Heo ngốc! Em chẳng sợ đâu~','🥰']],v:3,m:'hug'},{t:'Nằm yên, nắm lấy tay Thỏ không buông',r:[[T,'Ỏooooo, anh ngoan nào, ăn cháo đã.','🥹']],v:4}]});
+[['Có những chuyện nhỏ xíu','feed'],['Thỏ kéo Heo đi ăn Dookki','tickle'],['tiệm photobooth','selfie'],['Rồi cả hai cùng đi hội Cổ Loa','piggy']].forEach(([a,b])=>AT(a,b));
+S.forEach(s=>{if(!s.a)s.a=s.hl?'apart':({I:'call',II:'meet',III:'call',IV:'walk',V:'meet',VI:'gift',VII:'walk',VIII:'chase',X:'chase'}[s.c.split('.')[0]]||'bench')});
+Object.assign(O[17],{l:[[N,'Đến lượt Heo tặng lại. Cậu loay hoay giấu hai chiếc túi nhỏ sau lưng, tai đỏ ửng.'],[H,'Anh… anh có cái này cho em. Mua ở bên Trung Quốc hồi đó.','🙈']],q:'Heo đưa Thỏ…',o:[{t:'Đưa đôi giày và thỏi son, thú thật: “Anh nhịn ăn mấy bữa để dành tiền mua đó.”',r:[[T,'Heo… anh nhịn ăn á?! Sao anh dại thế…','🥹'],[H,'Dại vì em thôi, em thích là anh vui rồi.','🥰']],v:4,f:'letter',m:'gift'},{t:'Đưa quà, giả vờ tỉnh bơ: “Anh tiện đường mua thôi.”',r:[[T,'Tiện đường mà đúng size giày của em á?','😏'],[H,'Thì… anh để ý từ lâu…','🙈']],v:3,m:'gift'}]});
+S.splice(S.indexOf(O[17])+1,0,{c:cVI,b:4,w:T,l:[[N,'Thỏ ôm đôi giày vào lòng, ngón tay lướt nhẹ trên thỏi son. Em hiểu mỗi món quà này là bao nhiêu bữa cơm Heo đã bỏ lại.'],[N,'Trong khoảnh khắc ấy, tim Thỏ vừa ấm vừa nhói.']],q:'Thỏ…',o:[{t:'Ôm chầm lấy Heo, vừa khóc vừa cười: “Từ giờ anh phải ăn đủ bữa, hứa với em!”',r:[[H,'Ỏooooo, anh hứa! Nhưng em phải đi đôi giày này cho anh xem nhé.','🥹']],v:4,m:'hug'},{t:'Đi thử giày ngay tại chỗ, xoay một vòng như công chúa',r:[[H,'Đẹp quá… anh quên cả đói luôn.','😳'],[T,'Đẹp vì anh mua đó!','🥰']],v:3},{t:'Bôi thử son, hôn nhẹ lên má Heo để lại dấu son',r:[[H,'(đơ người, sờ má) Anh… không rửa mặt tối nay đâu.','🙈']],v:4,m:'kiss'}]});
+const K=(o)=>Object.assign({c:cI},o),Kh=(o)=>K(Object.assign({hl:1,b:6},o));
+S.splice(S.findIndex(x=>x.l[0][1].includes('Mấy ông anh đồng nghiệp'))+1,0,
+K({b:2,w:H,l:[[N,'Sắp đến 20/11, ngày Nhà giáo Việt Nam. Thỏ vừa là sinh viên sư phạm, vừa đi dạy gia sư, nên Heo muốn gửi một món quà cho em.'],[N,'Ở xa, Heo nhờ một người bạn chuyên làm bánh và hoa ở Việt Nam đặt giúp rồi ship tận tay cho Thỏ. Hộp quà gồm bánh và hoa, kèm một tấm thiệp nhỏ do chính Heo nghĩ lời.']],q:'Heo chọn quà…',o:[{t:'Viết lên thiệp: “Có 1 chàng trai đang ở bên Trung Quốc rất nhớ em.”',r:[[N,'Heo viết đi viết lại dòng chữ ấy mấy lần, rồi nhắn bạn: “Nhờ cậu nhé, nhớ giao tận tay giúp tớ.”']],v:3},{t:'Do dự có nên ghi tên không, rồi giữ bí mật cho thêm phần bất ngờ',r:[[N,'Heo mỉm cười một mình, tưởng tượng gương mặt Thỏ lúc nhận quà. Ngày giao hàng, anh hồi hộp như chính mình đang chờ nhận.']],v:3}]}),
+K({b:0,w:T,l:[[N,'Hôm quà đến, Thỏ đang đi chơi với đám bạn. Điện thoại reo, một số lạ. Từ trước đến giờ Thỏ không bao giờ nghe số máy lạ.'],[N,'Cả đám bạn đang ngồi ngay cạnh, mắt tò mò nhìn Thỏ: “Sao không nghe máy?”']],q:'Thỏ…',o:[{t:'Nhìn số lạ, để chuông reo như mọi lần, không nghe',r:[[N,'Shipper gọi hai ba lần mà không ai bắt máy, đành báo lại cho tiệm bánh. Thỏ chẳng hề biết đó là quà của Heo.']],v:1,f:'k_refuse'},{t:'Hôm nay phá lệ nghe máy: “Của em ạ, em ra lấy liền!”',r:[[N,'Cả đám bạn reo lên: “Ai tặng thế? Có người yêu rồi hả?” Thỏ cười, má ửng hồng.']],v:4,f:'k_ok'}]}),
+Kh({if:'k_refuse',w:H,l:[[N,'Điện thoại rung lên. Là tin nhắn của người bạn làm bánh và hoa: “Shipper gọi mấy lần mà bạn Thỏ không nghe máy, nghe bảo bạn ấy còn nói không quen người gửi nên không nhận đơn đâu nhé.”'],[N,'Heo ngồi lặng bên bàn làm việc ở Trung Quốc, đọc đi đọc lại dòng tin nhắn.'],[N,'Anh nghĩ: Có phải em đang đi chơi với bạn, sợ mọi người biết em có ai đó? Anh cũng muốn em tự hào nói với mọi người rằng em đang quen anh…']],q:'Heo…',o:[{t:'Nhắn hỏi Thỏ: “Em ổn không? Đơn quà của anh sao thế?”',r:[[N,'Tin nhắn ở lại “đã gửi”, chưa ai trả lời.']],v:2},{t:'Không nhắn gì, nuốt tủi thân vào lòng',r:[[N,'Cả ngày hôm đó, Heo làm việc như người mất hồn.']],v:1}]}),
+Kh({if:'k_refuse',w:T,l:[[N,'Tối, về đến nhà, Thỏ gọi lại cho shipper xin nhận quà. Một lúc sau, hộp quà đặt trước mặt em.'],[N,'Mở nắp, bên trong là bánh, là hoa, và một tấm thiệp nhỏ.'],[N,'Trên thiệp chỉ có một dòng nét chữ quen thuộc: “Có 1 chàng trai đang ở bên Trung Quốc rất nhớ em.”'],[N,'Nước mắt Thỏ rơi xuống tờ giấy.']],q:'Thỏ…',o:[{t:'Gọi video cho Heo ngay: “Em xin lỗi…”',r:[[H,'Em… đừng khóc. Anh thấy em rồi.','🥺']],v:3},{t:'Nhắn một tin xin lỗi dài, giọng run run',r:[[H,'Anh đọc rồi. Mình gọi nhau được không?','🥺']],v:2}]}),
+Kh({if:'k_refuse',w:H,l:[[T,'Em xin lỗi… em không bao giờ nghe số lạ nên bị miss, mà bạn bè hỏi em cũng ngại không dám nói. Em sai rồi.','😢'],[N,'Heo nhìn Thỏ qua màn hình, giọng em khản đi vì khóc.']],q:'Heo…',o:[{t:'“Anh không giận. Anh chỉ muốn em hiểu anh muốn em tự hào khi quen anh.”',r:[[T,'Em hiểu rồi… em hiểu rồi mà…','😭']],v:4,f:'public'},{t:'“Anh không sao đâu, em đừng khóc nữa.”',r:[[T,'Anh nói thật chứ? Anh có buồn không?','🥺'],[H,'…Có một chút. Nhưng giờ hết rồi.','😊']],v:2}]}),
+K({if:'k_refuse',b:3,w:T,l:[[N,'Cuộc gọi kéo dài đến khuya. Hai đứa vẫn chưa ai muốn cúp máy.']],q:'Thỏ nói…',o:[{t:'“Em hứa không giấu anh nữa. Em tự hào vì quen anh!”',r:[[H,'Ỏooooo… em nói thế anh tan chảy luôn rồi.','🥰']],v:4,f:'proud'},{t:'Ôm màn hình khóc: “Em sợ bị trêu, nhưng em sẽ cố, em hứa.”',r:[[H,'Không sao, từ từ thôi, anh chờ em.','🥹']],v:3}]}),
+K({if:'k_ok',b:3,w:H,l:[[N,'Tối đó, Thỏ gửi cho Heo một tấm ảnh: hộp quà mở tung giữa đám bạn đang cười, tấm thiệp “Có 1 chàng trai đang ở bên Trung Quốc rất nhớ em” đặt ngay giữa.'],[T,'Cả lớp hỏi ai tặng, em khoe luôn là bạn trai em tặng đó!','🥰']],q:'Heo…',o:[{t:'Cảm động đến nghẹn: “Em tự hào về anh vậy sao…”',r:[[T,'Tất nhiên rồi, Heo của em mà!','🥹']],v:4,f:'proud'},{t:'Cười toe: “Em làm anh vui cả tuần luôn!”',r:[[T,'Vui cả tuần thôi hả? Em muốn anh vui cả năm cơ!','😆']],v:3,f:'proud'}]}));
+S.forEach(s=>{if(!s.a)s.a=s.hl?'apart':({I:'call',II:'meet',III:'call',IV:'walk',V:'meet',VI:'gift',VII:'walk',VIII:'chase',X:'chase'}[s.c.split('.')[0]]||'bench')});
+S.find(x=>x.l[0][1].includes('Tối, về đến nhà, Thỏ gọi lại')).a='card';
+{const x=S.find(x=>x.l[0][1].includes('Tối đó, Thỏ gửi cho Heo một tấm ảnh'));x.a='card';x.o.forEach(o=>o.f2='card')}
+S.splice(S.findIndex(x=>x.l[0][1].includes('Cuộc gọi kéo dài đến khuya'))+1,0,{c:cI,b:3,a:'card',if:'k_refuse',w:T,l:[[N,'Sau khi làm hòa, Thỏ cứ lấy tấm thiệp ra đọc đi đọc lại. “Có 1 chàng trai đang ở bên Trung Quốc rất nhớ em.”'],[T,'Anh Heo ơi, em thích tấm thiệp này lắm đó. Em đọc mà tim cứ rộn lên.','🥰']],q:'Thỏ cất tấm thiệp…',o:[{t:'Dán lên góc bàn học, ngày nào cũng nhìn thấy',r:[[H,'Ỏooooo… em dán lên hả? Anh ngại quá.','🙈']],v:4,f:'card'},{t:'Kẹp vào cuốn sổ giáo án, mang theo mọi nơi',r:[[H,'Vậy là anh luôn ở bên em rồi nhé.','🥹']],v:4,f:'card'}]});
+S.splice(S.findIndex(x=>x.l[0][1].includes('Thỏ mở món quà nhỏ')),0,{c:cF,if:'card',a:'card',w:H,l:[[N,'Trước khi mở món quà, Thỏ lấy từ trong ví ra một tấm thiệp đã cũ, nét mực hơi nhòe.'],[T,'Anh nhớ không? Có 1 chàng trai đang ở bên Trung Quốc rất nhớ em. Em giữ nó từ hồi đó đến giờ đó.','🥹']],q:'Heo…',o:[{t:'Ôm Thỏ: “Chàng trai ấy giờ đang ngồi ngay cạnh em đây.”',r:[[T,'Ỏooooo, em biết rồi mà…','🥰']],v:4,m:'hug'},{t:'Mỉm cười: “Anh vẫn giữ bản nháp của nó đây.”',r:[[T,'Thật hả? Anh viết đi viết lại mấy lần luôn á?','😆']],v:3}]});
+const cW='X. Đi học và đi làm';let rx=0,gen=0;
+const W=(o)=>Object.assign({c:cW,b:12},o),Ws=(o)=>W(Object.assign({md:'sad'},o)),Wh=(o)=>W(Object.assign({hl:1},o));
+S.splice(S.findIndex(x=>x.q==='Thỏ gửi cho Heo…'),0,
+W({t:'Một ngày ở công ty',w:H,l:[[N,'Heo được thăng chức lên làm leader: một trọng trách lớn và cũng là thử thách mới.'],[N,'Việc đầu tiên cậu làm khi nhận tin là gọi cho Thỏ.']],q:'Heo kể với Thỏ…',o:[{t:'Reo to: “Anh làm leader rồi nè!”',r:[[T,'Ỏooooo, giỏi quá đi! Em tự hào về anh lắm á!','🥰']],v:4,f:'leader',m:'fire'},{t:'Kể nhỏ nhẹ, hơi lo: “Anh sợ mình không làm tốt.”',r:[[T,'Có em ở đây mà. Anh làm được hết, em tin vậy.','🥹']],v:3,f:'leader'}]}),
+Ws({t:'Học kì mới của Thỏ',b:6,w:T,l:[[N,'Học kì mới toàn môn khó. Biên dịch, phiên dịch là những môn Thỏ đau đầu nhất, cô giao bài tập nhiều vô kể.'],[N,'Thỏ đang phấn đấu lấy bằng xuất sắc nên không cho phép mình sơ suất.']],q:'Thỏ…',o:[{t:'Thức đến 2 giờ sáng làm bài, chẳng dám nghỉ',r:[[N,'Cốc cà phê nguội lạnh bên cạnh. Điện thoại có vài tin của Heo, chưa kịp trả lời.']],v:2,f:'distant'},{t:'Nhắn Heo: “Em bận lắm, đợi em xong bài nhé.”',r:[[H,'Ừ, em cứ làm đi, anh chờ.','🥺']],v:3}]}),
+W({w:T,l:[[N,'Ở công ty, mọi người hay khen Heo đẹp trai. Cậu vui lắm, nên tối nào cũng về kể lại cho Thỏ nghe lời khen của mọi người.'],[H,'Thỏ ơi, hôm nay chị phòng bên với mọi người lại khen anh đẹp trai nữa nè, anh vui quá!','😎'],[N,'Đến lần thứ năm liên tiếp…']],q:'Thỏ…',o:[{t:'Nổi cáu: “Em không có nhu cầu nghe mấy chuyện này!”',r:[[H,'(khựng lại) …Ừ, anh xin lỗi.','😶']],v:1},{t:'Cố cười cho qua, rồi khéo đổi chủ đề',r:[[H,'Sao thế? Em mệt hả?','🥺']],v:2}]}),
+W({w:H,l:[[N,'Tối đó, Heo ngồi một mình nghĩ lại. Mình kể đi kể lại mấy lời khen đó nhiều quá, có khi làm Thỏ khó chịu thật.']],q:'Heo nhắn Thỏ…',o:[{t:'“Anh xin lỗi. Anh hứa sẽ không kể mấy chuyện này nữa.”',r:[[T,'Em cũng xin lỗi vì nói gắt. Em chỉ đang mệt thôi mà…','🥹']],v:4,f:'quiet'},{t:'“Anh xin lỗi, nhưng anh chỉ muốn chia sẻ với em thôi mà…”',r:[[T,'Em hiểu… nhưng anh kể chuyện khác cũng được mà.','😅']],v:3}]}),
+W({w:T,b:0,l:[[N,'Song song là áp lực phải đạt HSK 3 và IELTS trước khi ra trường.'],[N,'Thỏ dán giấy từ vựng kín cả tường: chữ Hán, từ tiếng Anh, nhìn mà hoa cả mắt.']],q:'Thỏ…',o:[{t:'Gọi video cho Heo, vừa học vừa kể lể',r:[[H,'Ỏooooo, Thỏ giỏi lắm. Anh ngồi đây học cùng em nhé.','🥰']],v:4,f:'cheer'},{t:'Ôm sách học một mình, không muốn làm phiền ai',r:[[N,'Một mình giữa đống từ vựng, Thỏ chợt thấy hơi cô đơn.']],v:2}]}),
+W({t:'20/10',b:4,w:T,l:[[N,'20/10, cả lớp chỉ có hai bạn nam. Hai cậu dúi vào tay Thỏ một món quà nhỏ, mặt đỏ gay.'],[N,'“Cậu cười lên nhìn đỡ stress hơn đó.”']],q:'Thỏ…',o:[{t:'Cười thật tươi, khoe quà với cả lớp',r:[[N,'Cả lớp ồ lên. Một ngày nặng nề bỗng nhẹ đi hẳn.']],v:3},{t:'Nhắn khoe Heo: “Heo ơi, em được tặng quà nè!”',r:[[H,'Ỏooooo, em được yêu quá ta… (hơi ghen, nhưng mừng cho em)','😅']],v:3}]}),
+Wh({t:'Áp lực công việc',w:H,md:'sad',b:6,l:[[N,'Rồi Heo bị luân chuyển sang vị trí mới. Việc dồn dập, áp lực nặng như đá đè lên vai.'],[N,'Có hôm Heo ngồi lại văn phòng đến khuya, nhìn màn hình điện thoại mà chẳng dám nhắn cho Thỏ vì sợ em lo.']],q:'Heo…',o:[{t:'Gọi cho Thỏ, kể hết áp lực',r:[[T,'Anh đừng giữ một mình nữa. Em ở đây, mình cùng gánh.','🥹']],v:4,f:'support',m:'hug'},{t:'Giấu đi, nhắn: “Anh ổn, em ngủ đi.”',r:[[N,'Thỏ đọc dòng tin nhắn ấy, và linh cảm có điều gì không ổn.']],v:1,f:'distant'}]}),
+Wh({t:'Những ngày Thỏ ít rep',w:H,b:6,l:[[N,'Nhưng có một điều làm Heo buồn tủi: Thỏ bận hơn, ít rep tin hơn, ít nói chuyện với Heo hơn trước.'],[N,'Tin nhắn chiều gửi, đến tối mới thấy “đã xem”. Có hôm cả ngày chỉ nhận được hai chữ “em bận”.']],q:'Heo…',o:[{t:'Nhắn nũng nịu: “Huhu, Thỏ ơi, anh nhớ em lắm, em rep anh đi mà…”',r:[[T,'Ỏooooo, em xin lỗi nha, em đang học dở. Tối em gọi anh liền.','🥺']],v:3,f:'talk'},{t:'Không nói gì, tự nhủ em đang bận mà',r:[[N,'Nỗi tủi thân cứ lớn dần, trong khi người kia chẳng hề hay biết.']],v:0,f:'distant'}]}),
+Wh({w:T,b:6,l:[[N,'Một đêm, Thỏ mở lại tin nhắn cũ, nhận ra đã lâu rồi mình chưa hỏi Heo “hôm nay anh thế nào”.'],[N,'Áp lực điểm số, chứng chỉ, bài tập… khiến em quên mất người luôn đợi mình.']],q:'Thỏ…',o:[{t:'Gọi cho Heo: “Em xin lỗi vì dạo này bỏ bê anh.”',r:[[H,'Em không bỏ bê anh… anh chỉ nhớ em thôi.','🥹']],v:4,f:'talk',m:'hug'},{t:'Định gọi, nhưng thấy muộn rồi nên thôi',r:[[N,'Cuộc gọi chưa kịp bấm, đêm đã qua.']],v:0,f:'distant'}]}),
+W({if:'talk',b:3,w:H,l:[[H,'Hai đứa mình hứa nhé: dù bận mấy cũng dành cho nhau một chút thời gian mỗi ngày.','🥰']],q:'Heo đề nghị…',o:[{t:'“Mỗi tối, dù chỉ 5 phút, mình gọi nhau nhé.”',r:[[T,'Ỏooooo, ông chã húiii thương bà chã hơm nhất!','🥰']],v:4},{t:'“Mỗi sáng nhắn nhau một câu chúc ngày mới nhé.”',r:[[T,'Đồng ý! Em sẽ nhắn đầu tiên!','😆']],v:3}]}),
+Ws({if:'!talk',hl:1,b:6,w:T,l:[[N,'Tin nhắn thưa dần. Cả hai đều bận, đều im, đều chờ người kia lên tiếng trước.']],q:'Thỏ…',o:[{t:'Cố nhắn một câu: “Anh còn đó không?”',r:[[H,'Anh vẫn ở đây.','🥹']],v:3,f:'talk'},{t:'Gác máy, tự nhủ để mai nói',r:[[N,'“Mai” cứ dài ra, rồi thành cả tuần.']],v:0,f:'distant'}]}));
+{const nx=O[30],dk=O[31],j=S.indexOf(dk);S.splice(j,1);S.splice(S.indexOf(O[24])+1,0,dk);
+ const ri=S.indexOf(nx);S.splice(ri,0,
+{c:cX,t:'Tối thường ngày · 21h30',b:0,a:'meet',w:H,l:[[N,'Một buổi tối thường ngày, lúc 21 giờ 30, Thỏ vừa xong buổi dạy gia sư. Heo nhắn một câu.'],[H,'Bà chã hơm ơi, mình đi lượn nhé? Anh qua đón!','🥰'],[T,'Ông chã húiii, em dạy xong rồi nè, nhanh nhanh~','😆']],q:'Heo…',o:[{t:'Phóng xe tới, bấm còi inh ỏi báo hiệu',r:[[T,'Ông chã húiii, ồn quá đi!','😆']],v:3},{t:'Ghé mua hai ly trà sữa mang theo',r:[[T,'Ỏooooo, bạn trai em ngoan quá~','🥰']],v:3}]},
+{c:cX,b:0,a:'ride',w:T,l:[[N,'Hai đứa cặp nhau chạy lòng vòng phố đêm, nói chuyện rôm rả như hai đứa trẻ.'],[T,'Ông chã húiii, anh chạy chậm thôi, em muốn ngắm đèn phố!','🥰']],q:'Thỏ…',o:[{t:'Hát véo von sau lưng anh',r:[[H,'Bà chã hơm hát dở ghê, nhưng ông chã húiii thích nghe lắm!','😆']],v:3},{t:'Đố anh những câu hỏi ngố ngố',r:[[H,'Trời, bà chã hơm hôm nay lắm trò quá!','😅']],v:3}]},
+{c:cX,b:0,a:'bench',w:H,l:[[N,'Hai đứa dừng bên hồ, ngắm đèn phố phản chiếu trên mặt nước đêm. Thỏ tựa đầu vào vai Heo, mắt lim dim.']],q:'Heo thủ thỉ…',o:[{t:'“Ông chã húiii thương bà chã hơm nhất trên đời.”',r:[[T,'Ỏooooo, bà chã hơm cũng thương ông chã húiii nhiều lắm á.','🥰']],v:4},{t:'“Mai mình đi lượn nữa nhé?”',r:[[T,'Ngày nào cũng đi cũng được luôn!','😆']],v:3}]});
+ S.find(x=>x.l[0][1].includes('Có những chuyện nhỏ xíu')).t='Cuối tuần · Jollibee';dk.t='Một hôm khác · Dookki';O[26].t='Hoàng hôn hôm đó'}
+S.forEach(x=>{if(x.c==cX)x.c='XI. Sau cơn mưa trời lại sáng'});
+Object.assign(SCI,{X:12,XI:7});
+S.forEach(s=>{if(!s.a)s.a=s.hl?'apart':({I:'call',II:'meet',III:'call',IV:'walk',V:'meet',VI:'gift',VII:'walk',VIII:'chase',X:'bench',XI:'chase'}[s.c.split('.')[0]]||'bench')});
+let GI=null;
+function gateOff(){clearInterval(GI);const g=$('gt');if(g)g.remove()}
+function gate(g,done){gateOff();const d=document.createElement('div');d.id='gt';d.innerHTML='<div class="gb"><b>'+(g.i||'💞')+' Nhiệm vụ ngoài đời</b><p>'+g.d+'</p><div class="gpr"><i></i></div><div class="gbt"><button id="gh">🐷 Heo giữ</button><button id="gtb">🐰 Thỏ giữ</button></div><small>Làm xong rồi, cả hai cùng nhấn giữ nút trong '+g.s+' giây nhé</small><a id="gx">Để sau</a></div>';$('cam').append(d);
+ let h=0,t=0,p=0;const on=(id,k)=>{const b=$(id),dn=e=>{e.stopPropagation();e.preventDefault();k(1);b.classList.add('on')},up=()=>{k(0);b.classList.remove('on')};b.addEventListener('pointerdown',dn);['pointerup','pointerleave','pointercancel'].forEach(v=>b.addEventListener(v,up));b.onclick=e=>e.stopPropagation()};
+ on('gh',v=>h=v);on('gtb',v=>t=v);
+ GI=setInterval(()=>{p=(h&&t)?p+100:Math.max(0,p-200);const bar=d.querySelector('.gpr i');if(bar)bar.style.width=Math.min(100,p/(g.s*1000)*100)+'%';if(p>=g.s*1000){gateOff();heart(26);moment('fire');done()}},100);
+ $('gx').onclick=e=>{e.stopPropagation();gateOff();done()}}
+const GA=(f,i,d,sec)=>{const x=S.find(f);if(x)x.ga={i,d,s:sec}};
+GA(x=>x.q==='Thỏ trả lời…'&&x.c.startsWith('IV'),'💋','Chúc mừng hai bạn đã thành đôi! Giờ thì hôn nhau thật (ngoài đời) đi nào, như Heo đã hoàn thành thử thách của mình.',5);
+GA(x=>x.l[0][1].includes('Ghế đá gần nhà'),'😘','Thỏ thơm má Heo trước, rồi Heo thơm lại thật kêu (chụt ra tiếng, đừng ngại như hồi đó nhé!).',4);
+GA(x=>x.l[0][1].includes('Tối Valentine, hai đứa ngồi bên nhau'),'🫂','Ôm nhau thật chặt, thật lâu, như tối Valentine đầu tiên.',8);
+GA(x=>x.q==='Khung hình cuối, Thỏ…','📸','Chụp một tấm selfie chung thật ngố để lưu lại khoảnh khắc này.',4);
+GA(x=>x.l[0][1].includes('Tiếng gõ cửa vang lên'),'🏮','Ôm nhau và nói “anh xin lỗi” / “em xin lỗi” với nhau thật lòng.',6);
+GA(x=>x.l[0][1].includes('Bốn giờ sáng'),'📱','Nhắn cho nhau thật một câu “anh thương em” / “em thương anh”.',3);
+GA(x=>x.q==='Thỏ đáp lại…','🌹','Thỏ hôn má Heo thật kêu như hôm xưa, và Heo hôn lại.',4);
+S.splice(S.findIndex(x=>x.l[0][1].includes('Buổi hẹn đầu tiên với tư cách người yêu'))+1,0,{c:'IV. Nói lời yêu',b:3,a:'meet',w:H,l:[[N,'Hết buổi hẹn, Heo đưa Thỏ về tận cửa nhà. Đèn hiên vàng ấm, hai đứa đứng mãi chẳng ai chịu chào tạm biệt.']],q:'Heo…',o:[{t:'Hôn nhẹ lên trán Thỏ: “Ngủ ngon nhé.”',r:[[T,'Ỏooooo, ngủ ngon, Heo của em.','🥰']],v:3,m:'kiss'},{t:'Thì thầm: “Anh muốn hôn em một cái nữa…”',r:[[T,'Một cái thôi nha!','🙈']],v:3,m:'kiss'}],ga:{i:'😘',d:'Hôn tạm biệt thật nhé: trán, má hay môi tùy hai bạn.',s:4}});
+S.splice(S.indexOf(O[18])+1,0,{c:cVII,b:9,a:'gift',w:T,l:[[N,'Tối giao thừa, Thỏ nhắn: “Heo ơi, ra cổng nhà em một chút.” Heo chạy ra thì thấy Thỏ đứng đó, tay giấu sau lưng.']],q:'Thỏ…',o:[{t:'Đưa phong bao lì xì nhỏ xinh: “Lì xì Heo nè!”',r:[[H,'Ỏooooo, anh phải lì xì lại em mới đúng chứ!','🥰']],v:3},{t:'Nhón chân thơm má Heo: “Chúc mừng năm mới!”',r:[[H,'(đơ người) Năm mới… hạnh phúc…','🙈']],v:4,m:'kiss'}],ga:{i:'🧧',d:'Chúc mừng năm mới thật: thơm má nhau, ôm nhau và nói “chúc mừng năm mới, em yêu / anh yêu”.',s:4}});
+S.splice(S.findIndex(x=>x.q==='Heo thủ thỉ…')+1,0,{c:'XI. Sau cơn mưa trời lại sáng',b:3,a:'bench',w:T,l:[[N,'Sáng cuối tuần, Heo đứng pha cà phê trong bếp. Thỏ rón rén đi từ phía sau, vòng tay ôm lấy eo Heo.']],q:'Thỏ…',o:[{t:'Vùi mặt vào lưng Heo: “Ôm một xíu thôi mà.”',r:[[H,'Ỏooooo, một xíu mà ôm mười phút rồi đó.','🥰']],v:3,m:'hug'},{t:'Thì thầm bên tai Heo: “Em yêu anh.”',r:[[H,'Anh cũng yêu em. Yêu em nhiều hơn cà phê luôn.','🥹']],v:4,m:'hug'}],ga:{i:'🫂',d:'Ôm nhau từ phía sau thật, rồi nói nhỏ lời yêu vào tai nhau.',s:6}});
+GA(x=>x.q==='Heo ôm Thỏ kiểu gì đây?','🤗','Ôm nhau thật (nhớ ôm chặt, đừng ôm hờ hững như hồi đó nhé!).',5);
+GA(x=>x.l[0][1].includes('Có một bóng người'),'😘','Thơm má nhau thật một cái, như lúc Heo tranh thủ ghé qua cổng nhà Thỏ.',3);
+GA(x=>x.l[0][1].includes('Dưới ánh đèn đường vàng, ngoài cổng'),'💋','Hôn trộm nhau một cái thật nhanh, rồi cùng cười khúc khích.',4);
+GA(x=>x.l[0][1].includes('Cả hai cứ chia tay rồi lại quay lại'),'💋','Thêm một nụ hôn nữa rồi mới được chia tay!',3);
+GA(x=>x.l[0][1].includes('Heo cầm hộp quà trên tay'),'😘','Thỏ thơm má Heo để cảm ơn, Heo thơm lại.',3);
+GA(x=>x.l[0][1].includes('Đi chùa, ăn hội'),'🎆','Dưới pháo hoa, hôn má nhau thật kêu.',4);
+GA(x=>x.l[0][1].includes('Hôm gặp nhau, hai đứa chẳng nói'),'🫂','Ôm nhau thật chặt, thật lâu, như lần gặp lại đầy nước mắt ấy.',8);
+GA(x=>x.l[0][1].includes('Một ngày nắng nhẹ, Thỏ kéo Heo vào tiệm'),'💞','Nhìn vào mắt nhau và nói thật: “Anh yêu em” / “Em yêu anh”.',4);
+GA(x=>x.l[0][1].includes('Trong taxi, đèn phố chạy ngược'),'🤝','Nắm tay nhau thật, đan những ngón tay vào nhau.',4);
+GA(x=>x.l[0][1].includes('Một giờ sáng'),'🌙','Nói nhỏ với nhau thật: “Anh yêu em” / “Em yêu anh”, giọng thật khẽ như giữa đêm.',3);
+GA(x=>x.l[0][1].includes('Hết phim thì đi dạo'),'🛏️','Dựa đầu vào nhau thật, như đôi vợ chồng son trên chiếc giường thử.',5);
+GA(x=>x.l[0][1].includes('Một hôm Heo sốt cao'),'🤒','Thỏ đặt tay lên trán Heo, hôn nhẹ lên trán Heo.',3);
+GA(x=>x.l[0][1].includes('Hai đứa dừng bên hồ'),'🌃','Nói với nhau thật: “Ông chã húiii thương bà chã hơm” / “Bà chã hơm thương ông chã húiii”.',4);
+GA(x=>x.q==='Heo mong muốn…','💍','Nhìn thẳng vào mắt nhau và nói to một lời yêu thật lòng.',5);
+const PCT={notif:p=>`<div class="pn"><i>${p.i||'📩'}</i><div><b>${p.a}</b><span>${p.b}</span></div></div>`,chat:p=>`<div class="ph">${p.m.map((m,i)=>`<div class="cb ${m[0]}" style="animation-delay:${.5+i*1.1}s">${m[1]}</div>`).join('')}</div>`,strip:p=>`<div class="ps">${p.e.map((e,i)=>`<div style="animation-delay:${.3+i*.5}s">${e}</div>`).join('')}</div>`,ticket:p=>`<div class="pt"><b>${p.a}</b><span>${p.b}</span><br><em>${p.c}</em></div>`,photos:p=>`<div class="pp">${p.e.map((e,i)=>`<div style="animation-delay:${i*.4}s;--r:${(i-1)*9}deg">${e}</div>`).join('')}</div>`,box:p=>`<div class="pb">🎁<span>${p.e.join(' ')}</span></div>`};
+function hp(){$('cam').classList.toggle('haspc',!!($('pc')||$('cd')))}
+function popOff(){const d=$('pc');if(d)d.remove();hp()}
+function popOn(p){popOff();const d=document.createElement('div');d.id='pc';d.innerHTML=PCT[p.k](p);$('cam').append(d);ring(50,100,'✨',6);hp();if(p.t){let n=0;const iv=setInterval(()=>{const e=$('lp');if(!e){clearInterval(iv);return}e.textContent=p.t.slice(0,++n);if(n>=p.t.length)clearInterval(iv)},45)}}
+const PA=(f,p)=>{const x=S.find(f);if(x)x.pc=p},PI=(t,p)=>PA(x=>x.l[0][1].includes(t),p);
+PI('Sáng hôm sau, Heo ra ga',{k:'notif',i:'👤',a:'Facebook',b:'Thỏ đã chấp nhận lời mời kết bạn của bạn'});
+PI('Tối đầu tiên ở Trung Quốc',{k:'notif',i:'💬',a:'Thỏ',b:'đã trả lời story của bạn'});
+PI('hai đứa nhắn tin không dứt',{k:'chat',m:[['t','Anh ăn cơm chưa?'],['h','Rồi em, em chưa ngủ hả?'],['t','Chưa, đang đợi tin nhắn của anh đó 🙈']]});
+PI('Mấy ông anh đồng nghiệp',{k:'chat',m:[['h','Chiến thuật 1: nhắn “ăn cơm chưa” 😏'],['h','Chiến thuật 2: gọi tên thật ngọt'],['t','Các anh ơi em run quá 🥲']]});
+PI('kéo nhau lên Lotte',{k:'ticket',a:'🎫 Lotte Cinema',b:'Suất chiếu: hôm khác 😅',c:'2 vé · nhầm ngày'});
+PI('Một ngày nắng nhẹ, Thỏ kéo Heo vào tiệm',{k:'strip',e:['🐷😳','🐷🐰','🐰😘','🐷🐰💞']});
+PI('Rồi một hôm, Thỏ bất chợt gửi',{k:'photos',e:['👶🐰','🍼🐰','🎀🐰']});
+PI('Heo cầm hộp quà trên tay',{k:'box',e:['🍫','🌹','💌']});
+PI('Đến lượt Heo tặng lại',{k:'box',e:['👟','💄']});
+PI('Điện thoại rung lên. Là tin nhắn của người bạn',{k:'notif',i:'🧁',a:'Bạn làm bánh hoa',b:'Bạn Thỏ không nghe máy, bảo không nhận đơn…'});
+PI('Đêm Trung thu. Heo mua sẵn',{k:'chat',m:[['h','Thỏ ơi, tối nay mình đi chơi Trung thu nhé? 🏮'],['t','Em xin lỗi, em phải ra phát kẹo cho các em nhỏ…']]});
+PI('Một buổi tối, Heo đi tắm',{k:'notif',i:'💬',a:'Linh – đồng nghiệp',b:'Cảm ơn anh vì hôm qua. Mai mình gặp riêng nhé?'});
+PI('20/10, cả lớp chỉ có hai bạn nam',{k:'box',e:['🎁','🌷']});
+PI('Heo được thăng chức lên làm leader',{k:'notif',i:'📢',a:'Công ty',b:'Chúc mừng Heo được bổ nhiệm Leader! 🎉'});
+PI('Hôm nay hai đứa lại ngồi ở đúng chiếc ghế đá',{k:'strip',e:['🏍️','🍗','📸','💌']});
+Object.assign(PCT,{rcpt:p=>`<div class="rc"><b>${p.a}</b>${p.items.map(x=>`<div><span>${x[0]}</span><span>${x[1]}</span></div>`).join('')}<hr><div><span>TỔNG</span><span>${p.t}</span></div><em>${p.n}</em></div>`,cert:p=>`<div class="ce"><b>🏅 ${p.a}</b><p>${p.b}</p><em>${p.c}</em></div>`,call:p=>`<div class="cl"><div class="av">${p.i}</div><b>${p.a}</b><span>${p.b}</span><div class="ac">📞</div></div>`,cal:p=>`<div class="ca"><b>${p.a}</b><strong>${p.d}</strong><em>${p.b}</em></div>`,temp:p=>`<div class="tm"><div class="tb"><i></i></div><b>${p.a}</b></div>`,fort:p=>`<div class="fo"><b>${p.a}</b><div class="fb"><i style="--w:${p.w}%"></i></div><em>${p.b}</em></div>`});
+PI('Một tối, Thỏ gửi link xem tướng số',{k:'fort',a:'Độ hợp nhau của Heo & Thỏ',w:99,b:'Kết quả: hợp tới 99% 💞'});
+PI('Thỏ kéo Heo đi ăn Dookki',{k:'rcpt',a:'DOOKKI',items:[['Buffet tokbokki','2x'],['Nước lẩu (Heo pha 😅)','1x']],t:'Cay xè',n:'Cảm ơn quý khách! 🌶️'});
+PI('Một hôm Heo sốt cao',{k:'temp',a:'39.5°C 🤒'});
+PI('Có những chuyện nhỏ xíu, chỉ hai đứa hiểu',{k:'rcpt',a:'JOLLIBEE',items:[['Gà rán sốt cay','1x'],['Khoai tây chiên','1x'],['Tình yêu của Thỏ','∞']],t:'Vui vẻ',n:'Heo trả tiền 😎'});
+PI('Học kì mới toàn môn khó',{k:'cert',a:'Mục tiêu: bằng xuất sắc',b:'Sinh viên: Thỏ 🐰',c:'Đang cố gắng… ⭐'});
+PI('Song song là áp lực phải đạt HSK 3',{k:'cert',a:'HSK 3 & IELTS',b:'Mục tiêu trước khi ra trường',c:'Cố lên Thỏ! 💪'});
+PI('Mười giờ đêm. Phố vẫn rộn',{k:'call',i:'🐰',a:'Thỏ',b:'Cuộc gọi nhỡ (3)'});
+PI('Mười một giờ, kẹo đã phát hết',{k:'call',i:'🐷',a:'Heo',b:'Đang gọi…'});
+PI('Sắp đến 20/11',{k:'cal',a:'THÁNG 11',d:'20',b:'Ngày Nhà giáo Việt Nam'});
+PI('Valentine đầu tiên của hai đứa. Thỏ bí mật',{k:'cal',a:'THÁNG 2',d:'14',b:'Valentine đầu tiên 💝'});
+PI('Tết đầu tiên của hai đứa. Gần như',{k:'cal',a:'TẾT',d:'🧧',b:'Tết đầu tiên của hai đứa'});
+PI('Tháng Năm, trước sinh nhật Heo',{k:'cal',a:'THÁNG 5',d:'⚠️',b:'Ngày hai đứa cãi nhau'});
+PI('Sinh nhật Thỏ, ngay trước chuyến đi biển',{k:'cal',a:'SINH NHẬT',d:'🎂',b:'Chúc mừng sinh nhật Thỏ!'});
+PI('Cứ tối thứ Bảy hoặc Chủ nhật',{k:'call',i:'🐰',a:'Thỏ 🐰',b:'Cuộc gọi đến · 10:00 PM'});
+PI('Tết năm ấy, Heo nằm ở nhà',{k:'call',i:'📺',a:'Video call · Thỏ',b:'Đang xem show pháp sư Hàn Quốc'});
+PI('Một buổi tối thường ngày, lúc 21 giờ 30',{k:'notif',i:'🛵',a:'Heo',b:'Bà chã hơm ơi, mình đi lượn nhé? 🥰'});
+PI('Thỏ đi dạy gia sư tiếng Anh',{k:'notif',i:'📚',a:'Học trò nhỏ',b:'Cô ơi, cô có người yêu chưa ạ? 😳'});
+PI('Trên đường ra bãi xe',{k:'notif',i:'🔑',a:'Thông báo',b:'Mất chìa khóa xe máy 😭'});
+PI('Thỏ học sư phạm, giỏi giao tiếp',{k:'chat',m:[['t','Hôm nay hai bạn ấy lại rủ nhau làm nhóm…'],['h','Anh ở đây, Thỏ kể anh nghe nè 🥺']]});
+PI('Heo hay đặt trà sữa ship',{k:'box',e:['🧋','🧋','🧋','🧋','🧋']});
+PI('Rồi Heo bị luân chuyển sang vị trí mới',{k:'notif',i:'📋',a:'Công ty',b:'Thông báo luân chuyển nhân sự'});
+PI('Nhưng có một điều làm Heo buồn tủi',{k:'chat',m:[['h','Thỏ ơi, em đang làm gì đó? 🥺'],['t','Em bận, tối em rep nhé.'],['h','Đã xem · 21:47']]});
+Object.assign(PCT,{letter:p=>`<div class="lt"><b>✉️ ${p.a}</b><p id="lp"></p></div>`,song:p=>`<div class="sg"><div class="cd2">💿</div><div><b>${p.a}</b><span>${p.b}</span><div class="eq"><i></i><i></i><i></i><i></i></div></div></div>`});
+PI('Tối đó, Thỏ nhận được tin nhắn dài của Heo',{k:'letter',a:'Thư xin lỗi của Heo',t:'Thỏ ơi, anh xin lỗi vì đêm Trung thu anh đã cư xử quá lên. Anh chỉ muốn ở cạnh em thôi, vậy mà lại làm em buồn. Mong em tha lỗi cho anh nhé. - Heo'});
+PI('Lần này không còn tiếng khóc ầm ĩ',{k:'letter',a:'Thư Thỏ viết rồi không gửi',t:'Heo ơi, em xin lỗi vì đêm Trung thu em không ở bên anh. Em vẫn đang chờ anh. Em nhớ anh nhiều lắm. - Thỏ'});
+PI('Hai đứa cặp nhau chạy lòng vòng phố đêm',{k:'song',a:'Bài hát của hai đứa 🎵',b:'Heo & Thỏ'});
+PI('Hai đứa dừng bên hồ',{k:'song',a:'Bài hát của hai đứa 🎵',b:'Heo & Thỏ'});
+const DG=t=>{const x=S.find(x=>x.l[0][1].includes(t));if(x)delete x.ga};
+['Có một bóng người','Cả hai cứ chia tay rồi lại quay lại','Heo cầm hộp quà trên tay','Một ngày nắng nhẹ, Thỏ kéo Heo vào tiệm','Trong taxi, đèn phố chạy ngược','Một giờ sáng','Hết phim thì đi dạo','Một hôm Heo sốt cao','Tối giao thừa'].forEach(DG);
+Object.assign(PCT,{sticker:p=>`<div class="sk2"><b>${p.e}</b><span>${p.a}</span></div>`,quote:p=>`<div class="qt">${p.a}</div>`});
+const SK=(t,e,a)=>PI(t,{k:'sticker',e,a});
+SK('Tối trước hôm sang Trung Quốc','🍻','Quán nước quen');
+PI('Heo lướt Facebook, mắt dừng lại',{k:'notif',i:'👥',a:'Gợi ý kết bạn',b:'Thỏ – bạn có thể biết người này'});
+PI('Gửi đi! Gửi đi! Sợ gì!',{k:'notif',i:'➕',a:'Thêm bạn bè',b:'Lời mời kết bạn đã được gửi…'});
+PI('Về đến nhà, Heo thu dọn hành lý',{k:'ticket',a:'🚆 Vé tàu điện',b:'Hà Nội → Trung Quốc',c:'Chuyến sáng mai'});
+PI('Heo hay gửi cho Thỏ những khoảnh khắc',{k:'photos',e:['❄️','🍜','🏮']});
+SK('Thỏ vẫn hay gọi Heo là','🤝','“Siêu bạn thân”');
+PI('Mỗi lần nhắn tin, Thỏ lại có một món tủ',{k:'chat',m:[['t','Cái “cặp” của anh hôm nay có đi làm không đó? 😏'],['h','Em đừng nhắc nữa mà! 🙈']]});
+PI('Ở bên kia, Heo ngồi đỏ mặt',{k:'chat',m:[['t','Về VN em dạy anh hôn nhé, cậu bé ngây thơ 😏'],['h','🙈🙈🙈']]});
+PI('Ở bên này lạnh và dài lắm',{k:'notif',i:'💪',a:'Phòng gym',b:'Hôm nay tập chân, nhớ Thỏ 🥲'});
+SK('Bốn giờ sáng','🌅','4:00 AM · chưa ngủ');
+SK('Hết buổi hẹn, Heo đưa Thỏ về','🏠','Chưa ai muốn chào tạm biệt');
+PI('Hồi đó Heo làm việc cật lực',{k:'notif',i:'🕛',a:'Chấm công',b:'Tan ca: 00:52 sáng'});
+SK('Có một bóng người','🏍️💨','Chỉ để thơm một cái');
+SK('Đêm khuya, Thỏ ngồi tỉ mẩn','🌹','Hoa Thỏ tự làm');
+PI('Tối Valentine, hai đứa ngồi bên nhau',{k:'quote',a:'“Từ giây phút này, anh đã yêu em mê mệt rồi.”'});
+SK('Mùng đầu năm, hai đứa cùng đi chùa','⛩️','Mùng 1 · đi chùa');
+SK('Hôm sau, Heo đưa Thỏ tới nhà chị','🍲','Ăn hội nhà chị');
+SK('Rồi cả hai cùng đi hội Cổ Loa','🎏','Hội Cổ Loa');
+PI('Tối giao thừa, Thỏ nhắn',{k:'notif',i:'🧧',a:'Thỏ',b:'Heo ơi, ra cổng nhà em một chút!'});
+SK('Má Heo vẫn còn nóng ran','🎒','Chiếc cặp chéo huyền thoại');
+SK('Trời nhá nhem. Heo chở','🏍️','Đường về dài thêm chút nữa');
+SK('Hết phim thì đi dạo','🛏️','Muji · đôi vợ chồng son');
+SK('Gần sinh nhật Heo.','🏡','Homestay nhỏ');
+SK('Bình minh trên biển','🌅','Biển lúc bình minh');
+SK('Đêm xuống. Hai đứa nằm trên bờ cát','🌌','Dải ngân hà');
+PI('Vài ngày sau, nỗi tủi thân',{k:'chat',m:[['h','Anh nghĩ… mình dừng lại một thời gian nhé.'],['t','Lại nữa sao anh…']]});
+SK('Sáng cuối tuần, Heo đứng pha cà phê','☕','Cà phê sáng');
+$('sk').onclick=e=>{e.stopPropagation();gen++;if(!rx){const x=S[i];if(x&&x.o[0]){const o=x.o[0];score+=o.v;if(o.f)fl[o.f]=1;if(o.f2)fl[o.f2]=1;if(o.v<=1)fl.cold=(fl.cold||0)+1}i++}q=[];cb=null;cs.innerHTML='';clearInterval(tmr);typing=false;card.className='';scene()};
+$('bk').onclick=e=>{e.stopPropagation();gen++;const cu=Math.max(0,Math.min(rx?i-1:i,S.length-1)),c=S[cu].c;let st=cu;while(st>0&&S[st-1].c==c)st--;let j=st;if(cu==st&&st>0){const c2=S[st-1].c;j=st-1;while(j>0&&S[j-1].c==c2)j--}i=j;ch='';q=[];cb=null;cs.innerHTML='';clearInterval(tmr);typing=false;card.className='';scene()};
+$('sc').onclick=e=>{e.stopPropagation();gen++;const c=S[Math.min(rx?i-1:i,S.length-1)].c;let j=i;while(j<S.length&&S[j].c==c)j++;i=j;q=[];cb=null;cs.innerHTML='';clearInterval(tmr);typing=false;card.className='';scene()};
+SC[12]={sky:'#10243f,#27506b',fx:'star',g:'#0e1a2b',p:[['💻','44%','26%',44,'bob'],['🌃','8%','10%',70,''],['💬','78%','30%',28,'drift']]};
+Object.assign(SCI,{V:12,VI:4,VIII:10,IX:6});
+max=0;S.forEach(s=>{if(!(s.if&&s.if[0]=='!'))max+=Math.max(...s.o.map(o=>o.v))});
+setInterval(()=>{if(app.classList.contains('hl')&&Math.random()<.4){const f=$('flash');f.classList.remove('go');f.offsetWidth;f.classList.add('go')}},3500);
+setInterval(()=>{if(fxk=='star'&&Math.random()<.5){const m=document.createElement('span');m.className='mo star';m.textContent='✨';m.style.top=rnd(2,25)+'%';$('cam').append(m);setTimeout(()=>m.remove(),2200)}},4000);
+const ED=[
+{id:'a',n:'Gió đầu mùa',h:'Không giải thích thật lòng khi nói dừng lại ở tháng Năm, không nói thật ở Trung thu, không xin lỗi.',t:'Hai đứa vẫn ngồi cạnh nhau, nhưng còn nhiều điều chưa nói. Gió đầu mùa thổi qua, cả hai hiểu mình cần học cách thương nhau chậm lại.',c:()=>!fl.fight&&!fl.honest&&!fl.sorry},
+{id:'b',n:'Bắt đầu lại',h:'Mức thấu hiểu dưới 65%.',t:E[0][1],c:r=>r<=.65},
+{id:'c',n:'Hiểu nhau',h:'Mức thấu hiểu từ 65% đến 85%.',t:E[1][1],c:r=>r<=.85},
+{id:'d',n:'Mãi bên nhau',h:'Mức thấu hiểu trên 85%.',t:E[2][1],c:()=>1},
+{id:'s1',s:1,n:'Lời hứa dưới ghế đá',h:'Tặng đôi giày và thỏi son ở Valentine kèm lời thú thật nhịn ăn để mua, nói thật ở Trung thu, xin lỗi (ở Aeon hoặc khi gặp lại sau lần dừng lại đầu tiên), và mơ về tương lai ở chương X.',t:'Đôi giày và thỏi son năm ấy, Thỏ vẫn giữ cẩn thận trong chiếc hộp nhỏ cạnh những tấm ảnh photobooth. Dưới ghế đá cũ, hai đứa hứa sẽ viết tiếp những trang sau. 💌',c:()=>fl.letter&&fl.honest&&fl.sorry&&fl.future},
+{id:'s2',s:1,n:'Bình minh trên biển',h:'Học tiếng Trung với Thỏ, ngắm trăng chung ở chương III, rồi viết tên hai đứa lên cát ở chương biển.',t:'Sóng xóa tên trên cát, nhưng bình minh vẫn đến, và hai đứa vẫn viết lại mỗi năm. 🌅',c:()=>fl.cn&&fl.moon&&fl.sea},
+{id:'s3',s:1,n:'Điều ước thành thật',h:'Ước/cầu bình an cho Thỏ, tặng album ở sinh nhật, và giải thích thật lòng nỗi sợ khi nói dừng lại ở tháng Năm.',t:'Điều ước đêm sao băng năm nào đã thành sự thật: hai đứa nắm tay nhau không rời. 🌠',c:()=>fl.wish&&fl.album&&fl.fight},
+{id:'s4',s:1,n:'Chuyện chỉ hai đứa biết',h:'Ở chương lần đầu gặp mặt, ôm cùng chiếc cặp chéo; ở chương XII, ăn Jollibee cùng nhau và gọi nhau bằng biệt danh.',t:'Có những kỉ niệm chỉ hai đứa hiểu: chiếc cặp chéo, hộp gà rán, nồi nước lẩu và hai cái tên Heo, Thỏ. Nhắc lại là cười suốt cả đời. 🍗',c:()=>fl.bag&&fl.jolli&&fl.nick},
+{id:'s5',s:1,n:'Đèn lồng muộn',h:'Đêm Trung thu: để Thỏ phóng xe qua mưa tới nhà Heo, rồi kéo Thỏ vào lòng ôm thật chặt.',t:'Hai chiếc đèn lồng thắp lên muộn mấy tiếng, nhưng ánh sáng ấy theo hai đứa suốt những năm sau. Từ đó, mỗi Trung thu, dù bận đến mấy, Thỏ cũng ở bên Heo. 🏮',c:()=>fl.came&&fl.tears},
+{id:'y1',n:'Bận rộn thành xa cách',h:'Ở chương Đi học và đi làm, cả hai đều giấu áp lực, im lặng, không chủ động nói chuyện.',t:'Hai người cùng bận, cùng im lặng, cùng nghĩ người kia sẽ lên tiếng trước. Đến khi nhận ra, khoảng cách đã quá xa. Nhiều năm sau gặp lại, họ chỉ còn biết hỏi thăm nhau như hai người bạn cũ. 🍂',c:()=>fl.distant&&!fl.talk},
+{id:'y2',s:1,n:'Cùng nhau tỏa sáng',h:'Báo tin vui thăng chức, ngồi học cùng Thỏ, kể áp lực cho nhau nghe và chủ động nói chuyện khi xa cách.',t:'Heo thành leader giỏi, Thỏ nhận bằng xuất sắc. Cả hai ngồi cạnh nhau trong lễ tốt nghiệp, mỉm cười nhìn lại những đêm khuya học bài và làm việc. Hóa ra có nhau là đủ. 🎓',c:()=>fl.leader&&fl.support&&fl.cheer&&fl.talk},
+{id:'x1',n:'Lạnh nhạt',h:'Chọn nhiều lần những lựa chọn né tránh, im lặng hoặc bỏ lửng (ít nhất 5 lần).',t:'Tin nhắn thưa dần, cuộc gọi biến thành khoảng lặng. Một ngày hai đứa nói lời chia tay trong im lặng. Nhiều năm sau, gặp lại ở chiếc ghế đá cũ, không ai nói được câu nào, chỉ biết nhìn nhau thật lâu. 💔',c:()=>fl.cold>=5},
+{id:'x2',n:'Hiểu lầm không lời giải',h:'Thấy tin nhắn của Linh, giữ im lặng, không hỏi thẳng, và không tin tưởng nhau về sau.',t:'Một tin nhắn chưa kịp giải thích đã thành bức tường. Hai đứa mỗi người một ngả, mãi sau mới biết sự thật. Lúc gặp lại, cả hai chỉ biết mỉm cười buồn. 🥀',c:()=>fl.silent&&!fl.trust},
+{id:'s6',s:1,n:'Tin em hơn tất cả',h:'Hỏi thẳng Heo chuyện tin nhắn của Linh và chọn tin tưởng, nói thật ở Trung thu, và nói với hai bạn thân của Thỏ.',t:'Từ sau lần hiểu lầm nhỏ ấy, hai đứa học được cách hỏi nhau trước khi buồn. Tình yêu vững hơn bao giờ hết. 🤝',c:()=>fl.ask&&fl.trust&&fl.honest&&fl.friends}];$('ic').textContent='Ending đã mở: '+getU().length+'/'+ED.length;
+function end2(){const r=C(),o=['x1','x2','y1','y2','s1','s2','s3','s4','s5','s6','a'],e=ED.filter(x=>o.includes(x.id)).sort((x,y)=>o.indexOf(x.id)-o.indexOf(y.id)).find(x=>x.c(r))||ED.slice(1,4).find(x=>x.c(r));
+ const U=getU();if(!U.includes(e.id)){U.push(e.id);try{localStorage.ed=JSON.stringify(U)}catch(_){}}
+ $('turn').textContent='Kết thúc';score=max;place();$('big').style.display='block';$('fill').style.width='100%';heart(30);moment('fire');
+ say([[N,'Mức thấu hiểu: '+Math.round(r*100)+'%'],[N,'🏆 '+e.n+(e.s?' (Secret)':'')],[N,e.t]],()=>credits(()=>{const P=$('endp');P.style.display='block';P.innerHTML='<h3>🏆 '+e.n+'</h3><p style="text-align:center">Đã mở khóa '+U.length+'/'+ED.length+' ending</p>'+ED.map((x,k)=>{const u=U.includes(x.id);return `<div class="it ${u?'':'lk'}" style="animation-delay:${k*.15}s">${u?'✅':'🔒'} <b>${u||!x.s?x.n:'??? (Secret)'}</b>${x.s?' ⭐':''}<small>${u?x.t:'Cách mở: '+x.h}</small></div>`}).join('')+'<h3>↩ Thử rẽ hướng khác</h3><p style="text-align:center;font-size:13px">Quay lại đầu một chương và chơi tiếp từ đó, giữ nguyên các lựa chọn trước đó.</p>'+Object.keys(CP).map(k=>'<button class="rp" data-c="'+k+'">↩ '+k+'</button>').join('')+'<button id="rst">Chơi lại từ đầu ↺</button>';
+  $('rst').onclick=()=>location.reload();P.querySelectorAll('.rp').forEach(b=>b.onclick=()=>replayFrom(b.dataset.c));window.EI=setInterval(()=>heart(2),700)}))}
+let AC,G,M,mood='warm',bar=0,nt=0,mute=0;
+const fq=m=>440*2**((m-69)/12),PR={warm:[[48,52,55],[43,47,50],[45,48,52],[41,45,48]],sad:[[45,48,52],[41,45,48],[48,52,55],[43,47,50]],tense:[[45,48,52],[44,47,50],[45,48,52],[44,47,51]]};
+function nn(m,t,d,ty,v){const o=AC.createOscillator(),g=AC.createGain();o.type=ty;o.frequency.value=fq(m);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.015);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(G);o.start(t);o.stop(t+d+.05)}
+function sched(){while(nt<AC.currentTime+1.5){const c=PR[mood][bar++%4];if(nt<AC.currentTime)nt=AC.currentTime+.05;
+ if(mood=='warm'){const e=.2;[0,4].forEach(j=>nn(c[0]-24,nt+j*e,e*3,'triangle',.11));[2,3,6,7].forEach(j=>[1,2].forEach(k=>nn(c[k],nt+j*e,e*1.1,'triangle',.035)));
+  [[0,2],[1,1],[2,2],[3,0],[4,1],[5,2],[6,1],[7,0]].forEach(([j,k])=>nn(c[k]+24,nt+j*e,e*1.5,'sine',.07));nn(c[2]+36,nt+3.5*e,e,'sine',.03);nt+=8*e}
+ else{const sp=mood=='sad'?.62:.35;c.forEach(m=>nn(m-12,nt,sp*8,'sine',.06));[0,1,2,1,2,1,0,1].forEach((k,j)=>nn(c[k]+12,nt+j*sp,sp*2.2,'triangle',.07));nn(c[2]+24,nt+4*sp,sp*3,'sine',.04);nt+=8*sp}}}
+function startMusic(){if(AC)return;AC=new(window.AudioContext||window.webkitAudioContext)();M=AC.createGain();M.gain.value=.5;M.connect(AC.destination);G=AC.createGain();G.gain.value=1;G.connect(M);nt=AC.currentTime;sched();setInterval(sched,500)}
+$('mu').onclick=e=>{e.stopPropagation();mute=!mute;if(M)M.gain.value=mute?0:.55;$('mu').textContent=mute?'🔇':'🔊'};
+setInterval(()=>{if(ci>=0&&C()>.5)['heo','tho'].forEach(id=>{const m=document.createElement('span');m.className='em';m.textContent='✨';m.style.cssText=`left:${parseFloat($(id).style.left)+rnd(-6,6)}%;bottom:calc(24% + ${rnd(30,110)}px);font-size:18px`;$('cam').append(m);setTimeout(()=>m.remove(),1800)})},600);
+app.addEventListener('click',e=>{const r=app.getBoundingClientRect(),m=document.createElement('span');m.className='em';m.textContent='♥';m.style.cssText=`left:${e.clientX-r.left}px;top:${e.clientY-r.top}px;bottom:auto;font-size:20px;color:#ff7aa3`;app.append(m);setTimeout(()=>m.remove(),1700)});
+$('intro').onclick=()=>{try{startMusic()}catch(_){}$('intro').remove();card.innerHTML='<small>Heo &amp; Thỏ</small><b>Một bộ phim ngắn về chúng mình</b><u></u>';card.className='show';setTimeout(()=>{card.className='';scene()},2600)};
+</script></body></html>
