@@ -42,7 +42,7 @@ body{display:flex;justify-content:center;font:16px/1.55 system-ui,-apple-system,
 .hr{position:absolute;bottom:20%;font-size:22px;color:var(--t);pointer-events:none;z-index:6;animation:up 3s ease-out forwards}
 @keyframes up{to{transform:translateY(-70vh) rotate(25deg);opacity:0}}
 #nar{display:none;position:absolute;left:7%;right:7%;top:12%;text-align:center;font-size:17px;font-style:italic;padding:12px 16px;background:#0006;border-radius:14px;backdrop-filter:blur(4px);z-index:5;text-shadow:0 1px 4px #000;animation:fi .8s}
-#bub{display:none;position:absolute;bottom:calc(24% + 150px);transform:translateX(-50%);width:max-content;max-width:72%;padding:11px 15px;border-radius:18px;color:#2b1e24;background:#fff;z-index:5;box-shadow:0 6px 20px #0004;animation:pop .35s}
+#bub{display:none;position:absolute;bottom:calc(24% + 150px);transform:translateX(-50%);width:max-content;max-width:64%;word-break:break-word;padding:11px 15px;border-radius:18px;color:#2b1e24;background:#fff;z-index:5;box-shadow:0 6px 20px #0004;animation:pop .35s}
 #bub.heo{background:#dcebff}#bub.tho{background:#ffe0ea}
 #bub::after{content:"";position:absolute;bottom:-9px;left:50%;border:9px solid transparent;border-bottom:0;border-top-color:inherit;border-top-color:#fff}
 #bub.heo::after{border-top-color:#dcebff}#bub.tho::after{border-top-color:#ffe0ea}
@@ -249,7 +249,7 @@ function turn(w){const e=$('turn');e.textContent='Lượt của '+(w==H?'Heo �
 function type(t){full=t;el.textContent='';let k=0;typing=true;clearInterval(tmr);tmr=setInterval(()=>{el.textContent=t.slice(0,++k);if(k>=t.length){clearInterval(tmr);typing=false}},28)}
 function show(w,t,e){const n=w==N;if(e)emo(w,e);nar.style.display=n?'block':'none';bub.style.display=n?'none':'block';
  $('ban').classList.toggle('on',w==BN);$('heo').classList.toggle('on',w==H);$('tho').classList.toggle('on',w==T);$('heo').classList.remove('walk');$('tho').classList.remove('walk');
- el=n?nar:bub;if(!n){const c=C(),x=w==BN?68:w==H?($('ban').style.display=='block'?28:14+c*30):86-c*30;bub.style.left=Math.min(68,Math.max(32,x))+'%';bub.className=w}
+ el=n?nar:bub;if(!n){const c=C(),x=w==BN?68:w==H?($('ban').style.display=='block'?28:14+c*30):86-c*30;bub.style.left=Math.min(64,Math.max(36,x))+'%';bub.className=w}
  el.style.animation='none';el.offsetWidth;el.style.animation='';type(t)}
 function say(l,done){q=l.slice();cb=done;next()}
 function next(){if(!q.length){const c=cb;cb=null;return c&&c()}let[w,t,e]=q.shift();if((w==H||w==T)&&['🥰','🥹','💞','😊'].includes(e)&&Math.random()<.35&&!t.startsWith('Ỏ'))t='Ỏooooo~ '+t;show(w,t,e)}
@@ -653,6 +653,7 @@ SK('Bình minh trên biển','🌅','Biển lúc bình minh');
 SK('Đêm xuống. Hai đứa nằm trên bờ cát','🌌','Dải ngân hà');
 PI('Vài ngày sau, nỗi tủi thân',{k:'chat',m:[['h','Anh nghĩ… mình dừng lại một thời gian nhé.'],['t','Lại nữa sao anh…']]});
 SK('Sáng cuối tuần, Heo đứng pha cà phê','☕','Cà phê sáng');
+S.splice(S.findIndex(x=>x.q==='Heo mong muốn…'),0,{c:cF,b:8,a:'gift',w:H,pc:{k:'letter',a:'Lời chúc 20/11 của Heo',t:'Chúc cô giáo Thỏ của Heo ngày Nhà giáo Việt Nam thật nhiều niềm vui. Cảm ơn cô đã dạy anh biết yêu thương và kiên nhẫn. - Học trò Heo'},l:[[N,'Hôm nay cũng là 20/11, ngày Nhà giáo Việt Nam. Heo mang theo một bó hoa nhỏ, đứng trước Thỏ với nụ cười ngượng ngùng.'],[H,'Thỏ ơi, hôm nay là 20/11 rồi. Anh có lời chúc dành cho cô giáo Thỏ của anh nè!','😊']],q:'Heo chúc cô giáo Thỏ…',o:[{t:'“Chúc cô giáo Thỏ luôn thật khỏe, thật hạnh phúc và mãi tươi như nụ hoa.”',r:[[T,'Ỏooooo, học trò Heo ngoan quá! Cô nhận bó hoa nè.','🥰']],v:3},{t:'“Chúc cô có thật nhiều học trò ngoan, ít bài tập khó và nhiều điểm 10!”',r:[[T,'Ha ha, có một học trò ngoan như anh Heo là đủ rồi!','😆']],v:3},{t:'“Chúc cô giáo của anh sớm đạt bằng xuất sắc, HSK 3 và IELTS thật cao!”',r:[[T,'Ỏooooo, anh nhớ hết mục tiêu của em luôn…','🥹']],v:4}]});
 $('sk').onclick=e=>{e.stopPropagation();gen++;if(!rx){const x=S[i];if(x&&x.o[0]){const o=x.o[0];score+=o.v;if(o.f)fl[o.f]=1;if(o.f2)fl[o.f2]=1;if(o.v<=1)fl.cold=(fl.cold||0)+1}i++}q=[];cb=null;cs.innerHTML='';clearInterval(tmr);typing=false;card.className='';scene()};
 $('bk').onclick=e=>{e.stopPropagation();gen++;const cu=Math.max(0,Math.min(rx?i-1:i,S.length-1)),c=S[cu].c;let st=cu;while(st>0&&S[st-1].c==c)st--;let j=st;if(cu==st&&st>0){const c2=S[st-1].c;j=st-1;while(j>0&&S[j-1].c==c2)j--}i=j;ch='';q=[];cb=null;cs.innerHTML='';clearInterval(tmr);typing=false;card.className='';scene()};
 $('sc').onclick=e=>{e.stopPropagation();gen++;const c=S[Math.min(rx?i-1:i,S.length-1)].c;let j=i;while(j<S.length&&S[j].c==c)j++;i=j;q=[];cb=null;cs.innerHTML='';clearInterval(tmr);typing=false;card.className='';scene()};
